@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pasta 29 — Italian Delicatessen · Exeter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    /* ───────────────────────────────────────────
+       RESET & BASE
+    ─────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --parchment: #F5E6C8;
+      --red: #C8102E;
+      --olive: #2D6A2D;
+      --black: #1A1A1A;
+      --cream: #FDF6EC;
+      --red-dark: #A00D24;
+      --olive-light: #3A8A3A;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      color: var(--black);
+      line-height: 1.7;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      background: var(--cream);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ───────────────────────────────────────────
+       NAVIGATION
+    ─────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .nav.scrolled {
+      background: rgba(26, 26, 26, 0.97);
+      padding: 0.75rem 2rem;
+      box-shadow: 0 2px 30px rgba(0,0,0,0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* ───────────────────────────────────────────
+       SECTION UTILITIES
+    ─────────────────────────────────────────── */
+    .section-pad {
+      padding: 7rem 2rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-divider {
+      width: 50px;
+      height: 2px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ───────────────────────────────────────────
+       HERO
+    ─────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    /* warm texture overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(245, 230, 200, 0.015) 2px,
+          rgba(245, 230, 200, 0.015) 4px
+        ),
+        radial-gradient(ellipse at 30% 20%, rgba(200, 16, 46, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(45, 106, 45, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* grain texture */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      width: 90px;
+      height: 90px;
+      border: 1.5px solid rgba(245, 230, 200, 0.3);
+      border-radius: 50%;
+      margin: 0 auto 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-badge::before {
+      content: '🌾';
+      font-size: 1.6rem;
+      opacity: 0.7;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.06em;
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title span {
+      display: block;
+      font-size: 0.35em;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.5em;
+      font-style: italic;
+    }
+
+    .hero-tagline {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(245, 230, 200, 0.55);
+      font-weight: 300;
+    }
+
+    .hero-tagline em {
+      font-style: normal;
+      margin: 0 0.5em;
+      opacity: 0.4;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .hero-scroll span {
+      display: block;
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, rgba(245,230,200,0.4), transparent);
+      margin: 0 auto;
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.3; transform: scaleY(0.6); }
+    }
+
+    /* ───────────────────────────────────────────
+       ABOUT
+    ─────────────────────────────────────────── */
+    .about {
+      background: var(--parchment);
+      position: relative;
+    }
+
+    .about::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+    }
+
+    .about .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about .section-label { color: var(--red); }
+    .about .section-divider { background: var(--red); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      color: rgba(26, 26, 26, 0.8);
+      margin-bottom: 1.5rem;
+      line-height: 1.85;
+    }
+
+    .about-text p:first-of-type::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5em;
+      float: left;
+      line-height: 0.85;
+      margin-right: 0.1em;
+      margin-top: 0.05em;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .about-aside {
+      padding-top: 1rem;
+    }
+
+    .about-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+      border-left: 3px solid var(--red);
+    }
+
+    .about-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(26,26,26,0.08);
+    }
+
+    .about-detail-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(200, 16, 46, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+
+    .about-detail h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .about-detail p {
+      font-size: 0.88rem;
+      color: rgba(26,26,26,0.6);
+      line-height: 1.5;
+    }
+
+    /* ───────────────────────────────────────────
+       MENU
+    ─────────────────────────────────────────── */
+    .menu {
+      background: var(--cream);
+      position: relative;
+    }
+
+    .menu .section-label { color: var(--olive); }
+    .menu .section-divider { background: var(--olive); }
+
+    .menu-intro {
+      max-width: 560px;
+      font-size: 1.05rem;
+      color: rgba(26,26,26,0.65);
+      margin-bottom: 3.5rem;
+      line-height: 1.8;
+    }
+
+    .menu-category {
+      margin-bottom: 3rem;
+    }
+
+    .menu-category-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      font-style: italic;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(26,26,26,0.08);
+    }
+
+    .menu-category-label.cat-pasta { color: var(--red); }
+    .menu-category-label.cat-antipasti { color: var(--olive); }
+    .menu-category-label.cat-pantry { color: var(--black); }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .menu-item {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(26,26,26,0.05);
+    }
+
+    .menu-item:nth-child(odd) { padding-right: 2.5rem; }
+    .menu-item:nth-child(even) { padding-left: 2.5rem; border-left: 1px solid rgba(26,26,26,0.05); }
+
+    .menu-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.4rem;
+      gap: 1rem;
+    }
+
+    .menu-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .menu-item-price {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--red);
+      white-space: nowrap;
+    }
+
+    .menu-item-dots {
+      flex: 1;
+      border-bottom: 1px dotted rgba(26,26,26,0.15);
+      min-width: 20px;
+      margin-bottom: 4px;
+    }
+
+    .menu-item-desc {
+      font-size: 0.88rem;
+      color: rgba(26,26,26,0.55);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ───────────────────────────────────────────
+       HOURS
+    ─────────────────────────────────────────── */
+    .hours {
+      background: var(--black);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hours::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(200, 16, 46, 0.05) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(45, 106, 45, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hours .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hours .section-label { color: var(--parchment); opacity: 0.5; }
+    .hours .section-heading { color: #fff; }
+    .hours .section-divider { background: rgba(245, 230, 200, 0.25); }
+
+    .hours-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .hours-table {
+      width: 100%;
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 1rem;
+    }
+
+    .hours-day {
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .hours-time {
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.02em;
+    }
+
+    .hours-time.closed {
+      font-style: italic;
+      color: rgba(200, 16, 46, 0.6);
+    }
+
+    .hours-note {
+      margin-top: 2.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(245, 230, 200, 0.1);
+      border-radius: 2px;
+    }
+
+    .hours-note h4 {
+      font-size: 1rem;
+      color: var(--parchment);
+      margin-bottom: 0.5rem;
+    }
+
+    .hours-note p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+    }
+
+    /* ───────────────────────────────────────────
+       CONTACT / FIND US
+    ─────────────────────────────────────────── */
+    .contact {
+      background: var(--parchment);
+      position: relative;
+    }
+
+    .contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+    }
+
+    .contact .container { position: relative; z-index: 1; }
+    .contact .section-label { color: var(--olive); }
+    .contact .section-divider { background: var(--olive); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .contact-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-detail {
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-detail-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.4);
+      margin-bottom: 0.35rem;
+    }
+
+    .contact-detail p {
+      font-size: 1rem;
+      color: var(--black);
+      line-height: 1.6;
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 220px;
+      background: rgba(26,26,26,0.06);
+      border: 1px solid rgba(26,26,26,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(45,106,45,0.04) 0%, transparent 50%),
+        linear-gradient(to right, rgba(26,26,26,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26,26,26,0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 30px 30px, 30px 30px;
+    }
+
+    .map-placeholder span {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.3);
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-form h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.45);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      border: 1px solid rgba(26,26,26,0.1);
+      background: var(--cream);
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.3s ease;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--olive);
+    }
+
+    .form-group textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-submit {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--black);
+      border: none;
+      padding: 1.1rem 3rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .form-submit:hover { background: var(--red); }
+
+    /* ───────────────────────────────────────────
+       FOOTER
+    ─────────────────────────────────────────── */
+    .footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.3);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer p {
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ───────────────────────────────────────────
+       SCROLL ANIMATIONS
+    ─────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ───────────────────────────────────────────
+       RESPONSIVE
+    ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-grid,
+      .hours-layout,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .menu-item:nth-child(odd) { padding-right: 0; }
+      .menu-item:nth-child(even) { padding-left: 0; border-left: none; }
+
+      .section-pad { padding: 5rem 1.5rem; }
+    }
+
+    @media (max-width: 650px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(26, 26, 26, 0.98);
+        padding: 1.5rem 2rem 2rem;
+        gap: 1.25rem;
+      }
+
+      .hero-title { letter-spacing: 0.02em; }
+      .about-text p:first-of-type::first-letter { font-size: 2.8em; }
+      .section-pad { padding: 4rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <a href="#hero" class="nav-logo">Pasta 29</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#hours">Hours</a>
+      <a href="#contact">Find Us</a>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge" aria-hidden="true"></div>
+      <h1 class="hero-title">
+        <span>est. Exeter</span>
+        PASTA 29
+      </h1>
+      <p class="hero-tagline">Italian Delicatessen <em>&middot;</em> Exeter</p>
+    </div>
+    <div class="hero-scroll" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ABOUT
+  ═══════════════════════════════════════════ -->
+  <section class="about section-pad" id="about">
+    <div class="container">
+      <div class="section-label reveal">Our Story</div>
+      <h2 class="section-heading reveal">A Long Way<br>from Italy</h2>
+      <div class="section-divider reveal"></div>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>Berua grew up in Kyrgyzstan, a long way from the olive groves and pasta kitchens of Italy. But food has a way of travelling. A jar of proper San Marzano tomatoes, a plate of handmade tagliatelle at a friend's table, a trip to Bologna that changed everything &mdash; these small encounters became a quiet obsession. Not with restaurants or fine dining, but with the everyday Italian way of caring about ingredients.</p>
+          <p>He spent years learning &mdash; from nonnas who would only share recipes after the third visit, from producers who spoke about their olive oil the way poets speak about light. He learned that Italian food isn't about complexity. It's about respect: for the grain, the tomato, the slow afternoon.</p>
+          <p>Pasta 29 is the result of all of that. A small delicatessen on Longbrooke Street where the pasta is made fresh, the antipasti are prepared by hand, and the pantry shelves hold things worth crossing town for. Nothing rushed. Nothing fake. Just honest food, made with care.</p>
+        </div>
+        <div class="about-aside reveal">
+          <blockquote class="about-quote">
+            &ldquo;Italian food taught me that the best things are simple &mdash; you just have to care enough to do them properly.&rdquo;
+          </blockquote>
+          <div class="about-detail">
+            <div class="about-detail-icon" aria-hidden="true">&#127837;</div>
+            <div>
+              <h4>Fresh Pasta, Daily</h4>
+              <p>Made each morning using bronze dies and slow-dried semolina from Puglia.</p>
+            </div>
+          </div>
+          <div class="about-detail">
+            <div class="about-detail-icon" aria-hidden="true">&#127895;</div>
+            <div>
+              <h4>Sourced with Intention</h4>
+              <p>Every product on our shelves has a story and a producer we trust.</p>
+            </div>
+          </div>
+          <div class="about-detail">
+            <div class="about-detail-icon" aria-hidden="true">&#9749;</div>
+            <div>
+              <h4>A Place to Linger</h4>
+              <p>Come for the pasta, stay for the coffee and the conversation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MENU
+  ═══════════════════════════════════════════ -->
+  <section class="menu section-pad" id="menu">
+    <div class="container">
+      <div class="section-label reveal">What We Make &amp; Sell</div>
+      <h2 class="section-heading reveal">The Menu</h2>
+      <div class="section-divider reveal"></div>
+      <p class="menu-intro reveal">A selection of what you'll find at the counter. Everything changes with the seasons, the deliveries, and Berua's mood &mdash; but these are the staples.</p>
+
+      <!-- Fresh Pasta -->
+      <div class="menu-category reveal">
+        <div class="menu-category-label cat-pasta">Fresh Pasta</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Tagliatelle al Rag&ugrave;</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;8.50</span>
+            </div>
+            <p class="menu-item-desc">Hand-cut ribbons with slow-cooked Bolognese, Parmigiano, fresh basil.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Cacio e Pepe</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;7.00</span>
+            </div>
+            <p class="menu-item-desc">Tonnarelli pasta, Pecorino Romano, cracked Tellicherry black pepper.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Spinach &amp; Ricotta Ravioli</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;9.00</span>
+            </div>
+            <p class="menu-item-desc">Delicate parcels in sage brown butter with toasted pine nuts.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Antipasti -->
+      <div class="menu-category reveal">
+        <div class="menu-category-label cat-antipasti">Antipasti &amp; Small Plates</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Burrata con Pomodorini</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;7.50</span>
+            </div>
+            <p class="menu-item-desc">Creamy Puglian burrata, roasted cherry tomatoes, basil oil, sourdough.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Tagliere Misto</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;12.00</span>
+            </div>
+            <p class="menu-item-desc">Selection of cured meats, aged cheeses, cornichons, mostarda, grissini.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Melanzane alla Parmigiana</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;6.50</span>
+            </div>
+            <p class="menu-item-desc">Layered aubergine bake with San Marzano tomato, mozzarella, basil.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pantry -->
+      <div class="menu-category reveal">
+        <div class="menu-category-label cat-pantry">Pantry Staples</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Olio Extra Vergine</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;14.00</span>
+            </div>
+            <p class="menu-item-desc">Single-estate Sicilian olive oil, cold-pressed, grassy and peppery. 500ml.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Passata di Pomodoro</span>
+              <span class="menu-item-dots"></span>
+              <span class="menu-item-price">&pound;4.50</span>
+            </div>
+            <p class="menu-item-desc">Hand-crushed tomato passata from a family farm in Campania. 680g jar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       OPENING HOURS
+  ═══════════════════════════════════════════ -->
+  <section class="hours section-pad" id="hours">
+    <div class="container">
+      <div class="section-label reveal">When We're Open</div>
+      <h2 class="section-heading reveal">Opening Hours</h2>
+      <div class="section-divider reveal"></div>
+
+      <div class="hours-layout">
+        <div class="reveal">
+          <div class="hours-table">
+            <div class="hours-row">
+              <span class="hours-day">Monday</span>
+              <span class="hours-time">9:00 &ndash; 17:30</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Tuesday</span>
+              <span class="hours-time">9:00 &ndash; 17:30</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Wednesday</span>
+              <span class="hours-time">9:00 &ndash; 17:30</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Thursday</span>
+              <span class="hours-time">9:00 &ndash; 18:00</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Friday</span>
+              <span class="hours-time">9:00 &ndash; 18:00</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Saturday</span>
+              <span class="hours-time">8:30 &ndash; 17:00</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Sunday</span>
+              <span class="hours-time closed">Closed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hours-note reveal">
+          <h4>A Note on Freshness</h4>
+          <p>Our fresh pasta and antipasti are made each morning. We sometimes sell out before closing &mdash; especially the ravioli on Saturdays. If you're after something specific, it never hurts to ring ahead. We'd rather tell you honestly than disappoint you at the counter.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACT / FIND US
+  ═══════════════════════════════════════════ -->
+  <section class="contact section-pad" id="contact">
+    <div class="container">
+      <div class="section-label reveal">Find Us</div>
+      <h2 class="section-heading reveal">Get in Touch</h2>
+      <div class="section-divider reveal"></div>
+
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <h3>Visit the Deli</h3>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Address</div>
+            <p>29 Longbrooke Street<br>Exeter, Devon</p>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Telephone</div>
+            <p>01392 29 00 29</p>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-label">Email</div>
+            <p>hello@pasta29.co.uk</p>
+          </div>
+
+          <div class="map-placeholder">
+            <span>Map &middot; 29 Longbrooke Street, Exeter</span>
+          </div>
+        </div>
+
+        <div class="contact-form reveal">
+          <h3>Send a Message</h3>
+          <form id="contactForm" onsubmit="return false;">
+            <div class="form-group">
+              <label for="formName">Your Name</label>
+              <input type="text" id="formName" name="name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="formEmail">Email Address</label>
+              <input type="email" id="formEmail" name="email" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="formMessage">Message</label>
+              <textarea id="formMessage" name="message" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-brand">Pasta 29</div>
+    <p>Italian Delicatessen &middot; 29 Longbrooke Street, Exeter</p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════ -->
+  <script>
+    // Navbar scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
