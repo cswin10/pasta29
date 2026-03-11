@@ -6,11 +6,9 @@
   <title>Pasta 29 — Italian Delicatessen · Exeter</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
   <style>
-    /* ───────────────────────────────────────────
-       RESET & BASE
-    ─────────────────────────────────────────── */
+    /* ─── RESET ─── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -19,758 +17,787 @@
       --olive: #2D6A2D;
       --black: #1A1A1A;
       --cream: #FDF6EC;
-      --red-dark: #A00D24;
-      --olive-light: #3A8A3A;
     }
 
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Lato', sans-serif;
       color: var(--black);
       line-height: 1.7;
-      font-weight: 400;
+      font-weight: 300;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       background: var(--cream);
+      overflow-x: hidden;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1, h2, h3, h4, h5 {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.15;
     }
 
-    img { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
-    ul { list-style: none; }
 
-    /* ───────────────────────────────────────────
-       NAVIGATION
-    ─────────────────────────────────────────── */
+    /* ─── NOISE TEXTURE (reusable SVG) ─── */
+    .has-grain::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ─── NAVIGATION ─── */
     .nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 100;
-      padding: 1.25rem 2rem;
+      top: 0; left: 0; width: 100%;
+      z-index: 1000;
+      padding: 2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .nav.scrolled {
-      background: rgba(26, 26, 26, 0.97);
-      padding: 0.75rem 2rem;
-      box-shadow: 0 2px 30px rgba(0,0,0,0.15);
+      background: rgba(26, 26, 26, 0.96);
+      padding: 1rem 3rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.15em;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.2em;
       text-transform: uppercase;
+      transition: color 0.3s;
     }
+
+    .nav-logo:hover { color: #fff; }
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 3rem;
     }
 
     .nav-links a {
       font-family: 'Lato', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       font-weight: 400;
-      color: rgba(255,255,255,0.75);
-      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      transition: color 0.3s ease;
+      transition: color 0.3s;
     }
 
-    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover { color: rgba(255,255,255,0.85); }
 
-    .nav-hamburger {
+    .nav-toggle {
       display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
       background: none;
       border: none;
-      padding: 4px;
+      cursor: pointer;
+      padding: 6px;
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .nav-hamburger span {
+    .nav-toggle span {
       display: block;
-      width: 24px;
-      height: 2px;
-      background: #fff;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      width: 22px;
+      height: 1.5px;
+      background: rgba(255,255,255,0.5);
+      transition: all 0.3s;
     }
 
-    /* ───────────────────────────────────────────
-       SECTION UTILITIES
-    ─────────────────────────────────────────── */
-    .section-pad {
-      padding: 7rem 2rem;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
+    /* ─── SECTION LABEL PATTERN ─── */
+    .sec-label {
       font-family: 'Lato', sans-serif;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      color: var(--olive);
+      margin-bottom: 0.75rem;
     }
 
-    .section-heading {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 1.5rem;
-    }
-
-    .section-divider {
-      width: 50px;
+    .sec-rule {
+      width: 40px;
       height: 2px;
-      margin-bottom: 2.5rem;
+      background: var(--red);
+      margin-bottom: 3rem;
     }
 
-    /* ───────────────────────────────────────────
+    /* ─── REVEAL ANIMATIONS ─── */
+    .rv {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .rv.vis {
+      opacity: 1;
+      transform: none;
+    }
+
+    .rv-d1 { transition-delay: 0.08s; }
+    .rv-d2 { transition-delay: 0.16s; }
+    .rv-d3 { transition-delay: 0.24s; }
+    .rv-d4 { transition-delay: 0.32s; }
+
+    /* ═══════════════════════════════════════════
        HERO
-    ─────────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .hero {
       min-height: 100vh;
+      min-height: 100dvh;
+      background: #0a0a0a;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      background: var(--black);
       position: relative;
       overflow: hidden;
       padding: 2rem;
     }
 
-    /* warm texture overlay */
+    /* heavy grain overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* warm glow */
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(245, 230, 200, 0.015) 2px,
-          rgba(245, 230, 200, 0.015) 4px
-        ),
-        radial-gradient(ellipse at 30% 20%, rgba(200, 16, 46, 0.06) 0%, transparent 60%),
-        radial-gradient(ellipse at 70% 80%, rgba(45, 106, 45, 0.04) 0%, transparent 60%);
+        radial-gradient(ellipse at 50% 55%, rgba(200, 16, 46, 0.035) 0%, transparent 55%),
+        radial-gradient(ellipse at 25% 30%, rgba(245, 230, 200, 0.02) 0%, transparent 50%),
+        radial-gradient(ellipse at 75% 70%, rgba(245, 230, 200, 0.015) 0%, transparent 50%);
       pointer-events: none;
-    }
-
-    /* grain texture */
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
       z-index: 1;
     }
 
-    .hero-badge {
-      width: 90px;
-      height: 90px;
-      border: 1.5px solid rgba(245, 230, 200, 0.3);
-      border-radius: 50%;
-      margin: 0 auto 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .hero-inner {
       position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1200px;
     }
 
-    .hero-badge::before {
-      content: '🌾';
-      font-size: 1.6rem;
-      opacity: 0.7;
+    /* Subline above title */
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(245, 230, 200, 0.35);
+      letter-spacing: 0.12em;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
     }
 
+    /* Massive title */
     .hero-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 10vw, 8rem);
-      font-weight: 800;
+      font-size: clamp(4rem, 14vw, 12rem);
+      font-weight: 900;
       color: #fff;
-      letter-spacing: 0.06em;
-      line-height: 0.95;
-      margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+      line-height: 0.88;
+      margin-bottom: 0;
+      overflow: hidden;
     }
 
-    .hero-title span {
-      display: block;
-      font-size: 0.35em;
-      font-weight: 400;
-      letter-spacing: 0.35em;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 0.5em;
-      font-style: italic;
+    .hero-title .word {
+      display: inline-block;
+      overflow: hidden;
     }
 
-    .hero-tagline {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(245, 230, 200, 0.55);
-      font-weight: 300;
+    .hero-title .letter {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(100%);
+      animation: letterUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .hero-tagline em {
-      font-style: normal;
-      margin: 0 0.5em;
-      opacity: 0.4;
+    @keyframes letterUp {
+      to { opacity: 1; transform: none; }
     }
 
+    @keyframes heroFadeUp {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* Red rule */
+    .hero-rule {
+      width: 0;
+      height: 1.5px;
+      background: var(--red);
+      margin: 2.5rem auto 0;
+      animation: ruleExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards;
+    }
+
+    @keyframes ruleExpand {
+      to { width: min(280px, 40vw); }
+    }
+
+    /* Scroll line */
     .hero-scroll {
       position: absolute;
       bottom: 2.5rem;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 1;
+      z-index: 2;
+      opacity: 0;
+      animation: heroFadeUp 1s ease 2s forwards;
     }
 
-    .hero-scroll span {
+    .hero-scroll::after {
+      content: '';
       display: block;
       width: 1px;
-      height: 50px;
-      background: linear-gradient(to bottom, rgba(245,230,200,0.4), transparent);
-      margin: 0 auto;
-      animation: scrollPulse 2s ease-in-out infinite;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(245,230,200,0.3), transparent);
+      animation: scrollPulse 2.5s ease-in-out infinite;
     }
 
     @keyframes scrollPulse {
       0%, 100% { opacity: 1; transform: scaleY(1); }
-      50% { opacity: 0.3; transform: scaleY(0.6); }
+      50% { opacity: 0.2; transform: scaleY(0.5); }
     }
 
-    /* ───────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        ABOUT
-    ─────────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .about {
       background: var(--parchment);
       position: relative;
+      padding: 8rem 3rem;
     }
 
-    .about::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-      pointer-events: none;
-    }
-
-    .about .container {
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
-    .about .section-label { color: var(--red); }
-    .about .section-divider { background: var(--red); }
-
-    .about-grid {
+    .about-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
+      grid-template-columns: 1fr 0.85fr;
+      gap: 6rem;
       align-items: start;
+      margin-top: 1rem;
     }
 
     .about-text p {
-      font-size: 1.05rem;
-      color: rgba(26, 26, 26, 0.8);
-      margin-bottom: 1.5rem;
-      line-height: 1.85;
-    }
-
-    .about-text p:first-of-type::first-letter {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5em;
-      float: left;
-      line-height: 0.85;
-      margin-right: 0.1em;
-      margin-top: 0.05em;
-      color: var(--red);
-      font-weight: 700;
-    }
-
-    .about-aside {
-      padding-top: 1rem;
-    }
-
-    .about-quote {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-style: italic;
-      line-height: 1.5;
-      color: var(--black);
-      margin-bottom: 1.5rem;
-      position: relative;
-      padding-left: 1.5rem;
-      border-left: 3px solid var(--red);
-    }
-
-    .about-detail {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: 1.5rem 0;
-      border-top: 1px solid rgba(26,26,26,0.08);
-    }
-
-    .about-detail-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(200, 16, 46, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
       font-size: 1.1rem;
+      color: rgba(26, 26, 26, 0.72);
+      line-height: 1.9;
+      margin-bottom: 1.8rem;
     }
 
-    .about-detail h4 {
-      font-size: 0.95rem;
-      margin-bottom: 0.2rem;
+    .about-text p:first-child::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.8em;
+      float: left;
+      line-height: 0.82;
+      margin-right: 0.08em;
+      margin-top: 0.06em;
+      color: var(--red);
+      font-weight: 800;
     }
 
-    .about-detail p {
-      font-size: 0.88rem;
-      color: rgba(26,26,26,0.6);
-      line-height: 1.5;
+    .about-pull {
+      padding-top: 0.5rem;
     }
 
-    /* ───────────────────────────────────────────
+    .about-pull blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--black);
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .about-pull blockquote::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.25em;
+      bottom: 0.25em;
+      width: 2.5px;
+      background: var(--red);
+    }
+
+    .about-pull cite {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-style: normal;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(26,26,26,0.35);
+      margin-top: 1.5rem;
+      padding-left: 2rem;
+    }
+
+    /* ═══════════════════════════════════════════
        MENU
-    ─────────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .menu {
       background: var(--cream);
       position: relative;
+      padding: 8rem 3rem 10rem;
+      overflow: hidden;
     }
 
-    .menu .section-label { color: var(--olive); }
-    .menu .section-divider { background: var(--olive); }
+    /* Giant background "29" watermark */
+    .menu-watermark {
+      position: absolute;
+      top: 50%;
+      right: -5%;
+      transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20rem, 40vw, 45rem);
+      font-weight: 900;
+      color: rgba(26, 26, 26, 0.022);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+    }
+
+    .menu-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
 
     .menu-intro {
-      max-width: 560px;
+      max-width: 540px;
       font-size: 1.05rem;
-      color: rgba(26,26,26,0.65);
-      margin-bottom: 3.5rem;
-      line-height: 1.8;
-    }
-
-    .menu-category {
-      margin-bottom: 3rem;
-    }
-
-    .menu-category-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      font-style: italic;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(26,26,26,0.08);
-    }
-
-    .menu-category-label.cat-pasta { color: var(--red); }
-    .menu-category-label.cat-antipasti { color: var(--olive); }
-    .menu-category-label.cat-pantry { color: var(--black); }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-
-    .menu-item {
-      padding: 1.5rem 0;
-      border-bottom: 1px solid rgba(26,26,26,0.05);
-    }
-
-    .menu-item:nth-child(odd) { padding-right: 2.5rem; }
-    .menu-item:nth-child(even) { padding-left: 2.5rem; border-left: 1px solid rgba(26,26,26,0.05); }
-
-    .menu-item-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.4rem;
-      gap: 1rem;
-    }
-
-    .menu-item-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .menu-item-price {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--red);
-      white-space: nowrap;
-    }
-
-    .menu-item-dots {
-      flex: 1;
-      border-bottom: 1px dotted rgba(26,26,26,0.15);
-      min-width: 20px;
-      margin-bottom: 4px;
-    }
-
-    .menu-item-desc {
-      font-size: 0.88rem;
       color: rgba(26,26,26,0.55);
-      line-height: 1.6;
+      line-height: 1.85;
+      margin-bottom: 4rem;
       font-style: italic;
     }
 
-    /* ───────────────────────────────────────────
+    .menu-categories {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .menu-cat {
+      padding: 2.5rem 0;
+      border-top: 1px solid rgba(26,26,26,0.08);
+    }
+
+    .menu-cat-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+
+    .menu-cat-name.cat-red { color: var(--red); }
+    .menu-cat-name.cat-olive { color: var(--olive); }
+    .menu-cat-name.cat-dark { color: var(--black); }
+
+    .menu-cat-desc {
+      font-size: 0.95rem;
+      color: rgba(26,26,26,0.45);
+      line-height: 1.75;
+    }
+
+    .menu-soon {
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(26,26,26,0.06);
+      text-align: center;
+    }
+
+    .menu-soon p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(26,26,26,0.4);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════
        HOURS
-    ─────────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .hours {
       background: var(--black);
       color: #fff;
       position: relative;
+      padding: 8rem 3rem;
       overflow: hidden;
     }
 
-    .hours::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 50%, rgba(200, 16, 46, 0.05) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 50%, rgba(45, 106, 45, 0.04) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .hours .container {
+    .hours-inner {
+      max-width: 750px;
+      margin: 0 auto;
+      text-align: center;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
-    .hours .section-label { color: var(--parchment); opacity: 0.5; }
-    .hours .section-heading { color: #fff; }
-    .hours .section-divider { background: rgba(245, 230, 200, 0.25); }
+    .hours .sec-label { color: rgba(245, 230, 200, 0.3); }
+    .hours .sec-rule { margin-left: auto; margin-right: auto; background: rgba(200, 16, 46, 0.4); }
 
-    .hours-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
+    .hours-heading {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2rem;
     }
 
-    .hours-table {
-      width: 100%;
-    }
-
-    .hours-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      font-size: 1rem;
-    }
-
-    .hours-day {
-      font-weight: 400;
-      color: rgba(255,255,255,0.7);
-    }
-
-    .hours-time {
-      font-weight: 300;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.02em;
-    }
-
-    .hours-time.closed {
+    .hours-message {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem);
       font-style: italic;
-      color: rgba(200, 16, 46, 0.6);
-    }
-
-    .hours-note {
-      margin-top: 2.5rem;
-      padding: 2rem;
-      border: 1px solid rgba(245, 230, 200, 0.1);
-      border-radius: 2px;
-    }
-
-    .hours-note h4 {
-      font-size: 1rem;
-      color: var(--parchment);
-      margin-bottom: 0.5rem;
-    }
-
-    .hours-note p {
-      font-size: 0.88rem;
+      font-weight: 300;
       color: rgba(255,255,255,0.4);
-      line-height: 1.7;
+      line-height: 1.65;
+      max-width: 500px;
+      margin: 0 auto 3rem;
     }
 
-    /* ───────────────────────────────────────────
+    .hours-cta {
+      display: inline-block;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245, 230, 200, 0.5);
+      padding: 1rem 2.5rem;
+      border: 1px solid rgba(245, 230, 200, 0.12);
+      transition: all 0.4s ease;
+    }
+
+    .hours-cta:hover {
+      color: #fff;
+      border-color: rgba(200, 16, 46, 0.5);
+      background: rgba(200, 16, 46, 0.08);
+    }
+
+    /* ═══════════════════════════════════════════
        CONTACT / FIND US
-    ─────────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .contact {
       background: var(--parchment);
       position: relative;
+      padding: 8rem 3rem;
     }
 
-    .contact::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.02;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-      pointer-events: none;
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
     }
 
-    .contact .container { position: relative; z-index: 1; }
-    .contact .section-label { color: var(--olive); }
-    .contact .section-divider { background: var(--olive); }
-
-    .contact-grid {
+    .contact-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 6rem;
+      margin-top: 1rem;
     }
 
+    /* Left: info */
     .contact-info h3 {
-      font-size: 1.3rem;
-      margin-bottom: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
     }
 
-    .contact-detail {
-      margin-bottom: 1.5rem;
+    .contact-block {
+      margin-bottom: 2rem;
     }
 
-    .contact-detail-label {
-      font-size: 0.7rem;
+    .contact-block-label {
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: rgba(26,26,26,0.4);
-      margin-bottom: 0.35rem;
+      color: rgba(26,26,26,0.3);
+      margin-bottom: 0.4rem;
     }
 
-    .contact-detail p {
-      font-size: 1rem;
+    .contact-block p {
+      font-size: 1.05rem;
       color: var(--black);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
-    .map-placeholder {
+    .contact-block a {
+      color: var(--black);
+      transition: color 0.3s;
+    }
+
+    .contact-block a:hover { color: var(--red); }
+
+    /* Map placeholder */
+    .map-frame {
       width: 100%;
-      height: 220px;
-      background: rgba(26,26,26,0.06);
-      border: 1px solid rgba(26,26,26,0.08);
+      height: 200px;
+      margin-top: 2.5rem;
+      border: 1px solid rgba(26,26,26,0.06);
+      background: rgba(26,26,26,0.03);
+      position: relative;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 2rem;
-      position: relative;
-      overflow: hidden;
     }
 
-    .map-placeholder::before {
+    .map-frame::before {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(135deg, rgba(45,106,45,0.04) 0%, transparent 50%),
-        linear-gradient(to right, rgba(26,26,26,0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(26,26,26,0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 30px 30px, 30px 30px;
+        linear-gradient(to right, rgba(26,26,26,0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(26,26,26,0.015) 1px, transparent 1px);
+      background-size: 28px 28px;
     }
 
-    .map-placeholder span {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
+    .map-frame span {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(26,26,26,0.3);
+      color: rgba(26,26,26,0.2);
       font-weight: 700;
       position: relative;
       z-index: 1;
     }
 
-    .contact-form h3 {
-      font-size: 1.3rem;
-      margin-bottom: 1.5rem;
+    /* Right: form + email capture */
+    .contact-right h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
     }
 
     .form-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.3rem;
     }
 
     .form-group label {
       display: block;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(26,26,26,0.45);
+      color: rgba(26,26,26,0.35);
       margin-bottom: 0.5rem;
     }
 
     .form-group input,
     .form-group textarea {
       width: 100%;
-      padding: 0.9rem 1rem;
+      padding: 0.85rem 1rem;
       font-family: 'Lato', sans-serif;
       font-size: 0.95rem;
-      border: 1px solid rgba(26,26,26,0.1);
+      font-weight: 300;
+      border: 1px solid rgba(26,26,26,0.08);
       background: var(--cream);
       color: var(--black);
       outline: none;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.3s;
       border-radius: 0;
       -webkit-appearance: none;
     }
 
     .form-group input:focus,
     .form-group textarea:focus {
-      border-color: var(--olive);
+      border-color: var(--red);
     }
 
     .form-group textarea {
-      min-height: 130px;
+      min-height: 120px;
       resize: vertical;
     }
 
-    .form-submit {
+    .form-btn {
       font-family: 'Lato', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: #fff;
       background: var(--black);
       border: none;
-      padding: 1.1rem 3rem;
+      padding: 1.05rem 2.5rem;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background 0.4s ease;
     }
 
-    .form-submit:hover { background: var(--red); }
+    .form-btn:hover { background: var(--red); }
 
-    /* ───────────────────────────────────────────
+    /* Email capture */
+    .email-capture {
+      margin-top: 3.5rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(26,26,26,0.07);
+    }
+
+    .email-capture h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .email-capture p {
+      font-size: 0.88rem;
+      color: rgba(26,26,26,0.45);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .email-row {
+      display: flex;
+      gap: 0;
+    }
+
+    .email-row input {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      border: 1px solid rgba(26,26,26,0.08);
+      border-right: none;
+      background: var(--cream);
+      color: var(--black);
+      outline: none;
+      border-radius: 0;
+      -webkit-appearance: none;
+      transition: border-color 0.3s;
+    }
+
+    .email-row input:focus { border-color: var(--red); }
+
+    .email-row button {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--red);
+      border: 1px solid var(--red);
+      padding: 0 1.8rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.3s;
+    }
+
+    .email-row button:hover { background: #a00d24; }
+
+    /* ═══════════════════════════════════════════
        FOOTER
-    ─────────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     .footer {
-      background: var(--black);
-      color: rgba(255,255,255,0.3);
-      padding: 3rem 2rem;
+      background: #0a0a0a;
+      padding: 4rem 3rem;
       text-align: center;
+      position: relative;
     }
 
     .footer-brand {
       font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.15em;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.6rem;
     }
 
     .footer p {
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.08em;
     }
 
-    /* ───────────────────────────────────────────
-       SCROLL ANIMATIONS
-    ─────────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ───────────────────────────────────────────
+    /* ═══════════════════════════════════════════
        RESPONSIVE
-    ─────────────────────────────────────────── */
+    ═══════════════════════════════════════════ */
     @media (max-width: 900px) {
-      .about-grid,
-      .hours-layout,
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-
-      .menu-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .menu-item:nth-child(odd) { padding-right: 0; }
-      .menu-item:nth-child(even) { padding-left: 0; border-left: none; }
-
-      .section-pad { padding: 5rem 1.5rem; }
+      .about-layout,
+      .contact-layout { grid-template-columns: 1fr; gap: 3.5rem; }
+      .menu-categories { grid-template-columns: 1fr; gap: 0; }
+      .about, .menu, .hours, .contact { padding: 5.5rem 2rem; }
     }
 
     @media (max-width: 650px) {
       .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
+      .nav-toggle { display: flex; }
+      .nav { padding: 1.25rem 1.5rem; }
+      .nav.scrolled { padding: 0.9rem 1.5rem; }
 
       .nav-links.open {
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
+        top: 100%; left: 0; right: 0;
         background: rgba(26, 26, 26, 0.98);
         padding: 1.5rem 2rem 2rem;
-        gap: 1.25rem;
+        gap: 1.2rem;
+        backdrop-filter: blur(10px);
       }
 
-      .hero-title { letter-spacing: 0.02em; }
-      .about-text p:first-of-type::first-letter { font-size: 2.8em; }
-      .section-pad { padding: 4rem 1.25rem; }
+      .hero-title { letter-spacing: 0; }
+      .about, .menu, .hours, .contact { padding: 4.5rem 1.25rem; }
+      .about-text p:first-child::first-letter { font-size: 3em; }
+      .email-row { flex-direction: column; gap: 0; }
+      .email-row input { border-right: 1px solid rgba(26,26,26,0.08); }
+      .email-row button { padding: 0.9rem 1.8rem; border-top: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════
-       NAVIGATION
-  ═══════════════════════════════════════════ -->
+  <!-- ═══ NAV ═══ -->
   <nav class="nav" id="nav">
     <a href="#hero" class="nav-logo">Pasta 29</a>
     <div class="nav-links" id="navLinks">
@@ -779,317 +806,195 @@
       <a href="#hours">Hours</a>
       <a href="#contact">Find Us</a>
     </div>
-    <button class="nav-hamburger" id="navToggle" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
     </button>
   </nav>
 
-  <!-- ═══════════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════════ -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <div class="hero-badge" aria-hidden="true"></div>
-      <h1 class="hero-title">
-        <span>est. Exeter</span>
-        PASTA 29
-      </h1>
-      <p class="hero-tagline">Italian Delicatessen <em>&middot;</em> Exeter</p>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero has-grain" id="hero">
+    <div class="hero-inner">
+      <p class="hero-sub">Handmade. Honest. Exeter.</p>
+      <h1 class="hero-title" id="heroTitle" aria-label="PASTA 29"></h1>
+      <div class="hero-rule"></div>
     </div>
-    <div class="hero-scroll" aria-hidden="true"><span></span></div>
+    <div class="hero-scroll" aria-hidden="true"></div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       ABOUT
-  ═══════════════════════════════════════════ -->
-  <section class="about section-pad" id="about">
-    <div class="container">
-      <div class="section-label reveal">Our Story</div>
-      <h2 class="section-heading reveal">A Long Way<br>from Italy</h2>
-      <div class="section-divider reveal"></div>
+  <!-- ═══ ABOUT ═══ -->
+  <section class="about has-grain" id="about">
+    <div class="about-inner">
+      <div class="sec-label rv">Our Story</div>
+      <div class="sec-rule rv rv-d1"></div>
 
-      <div class="about-grid">
-        <div class="about-text reveal">
-          <p>Berua grew up in Kyrgyzstan, a long way from the olive groves and pasta kitchens of Italy. But food has a way of travelling. A jar of proper San Marzano tomatoes, a plate of handmade tagliatelle at a friend's table, a trip to Bologna that changed everything &mdash; these small encounters became a quiet obsession. Not with restaurants or fine dining, but with the everyday Italian way of caring about ingredients.</p>
-          <p>He spent years learning &mdash; from nonnas who would only share recipes after the third visit, from producers who spoke about their olive oil the way poets speak about light. He learned that Italian food isn't about complexity. It's about respect: for the grain, the tomato, the slow afternoon.</p>
-          <p>Pasta 29 is the result of all of that. A small delicatessen on Longbrooke Street where the pasta is made fresh, the antipasti are prepared by hand, and the pantry shelves hold things worth crossing town for. Nothing rushed. Nothing fake. Just honest food, made with care.</p>
+      <div class="about-layout">
+        <div class="about-text">
+          <p class="rv">Berua loves Italian food. Not in the abstract — in the specific. The weight of good dried pasta. The colour of properly ripe San Marzanos. The way a real Parmigiano smells when you crack it open. He's spent years finding producers he trusts and learning to make things by hand.</p>
+          <p class="rv rv-d1">Pasta 29 is his Italian delicatessen, coming to 29 Longbrooke Street, Exeter. Fresh pasta made daily, antipasti prepared in-house, and a carefully chosen pantry of ingredients worth caring about. Small, honest, and personal.</p>
         </div>
-        <div class="about-aside reveal">
-          <blockquote class="about-quote">
-            &ldquo;Italian food taught me that the best things are simple &mdash; you just have to care enough to do them properly.&rdquo;
-          </blockquote>
-          <div class="about-detail">
-            <div class="about-detail-icon" aria-hidden="true">&#127837;</div>
-            <div>
-              <h4>Fresh Pasta, Daily</h4>
-              <p>Made each morning using bronze dies and slow-dried semolina from Puglia.</p>
-            </div>
-          </div>
-          <div class="about-detail">
-            <div class="about-detail-icon" aria-hidden="true">&#127895;</div>
-            <div>
-              <h4>Sourced with Intention</h4>
-              <p>Every product on our shelves has a story and a producer we trust.</p>
-            </div>
-          </div>
-          <div class="about-detail">
-            <div class="about-detail-icon" aria-hidden="true">&#9749;</div>
-            <div>
-              <h4>A Place to Linger</h4>
-              <p>Come for the pasta, stay for the coffee and the conversation.</p>
-            </div>
-          </div>
+        <div class="about-pull rv rv-d2">
+          <blockquote>Good food doesn't need to be complicated. It just needs someone who cares enough to do it properly.</blockquote>
+          <cite>Berua, Founder</cite>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       MENU
-  ═══════════════════════════════════════════ -->
-  <section class="menu section-pad" id="menu">
-    <div class="container">
-      <div class="section-label reveal">What We Make &amp; Sell</div>
-      <h2 class="section-heading reveal">The Menu</h2>
-      <div class="section-divider reveal"></div>
-      <p class="menu-intro reveal">A selection of what you'll find at the counter. Everything changes with the seasons, the deliveries, and Berua's mood &mdash; but these are the staples.</p>
+  <!-- ═══ MENU ═══ -->
+  <section class="menu" id="menu">
+    <div class="menu-watermark" aria-hidden="true">29</div>
+    <div class="menu-inner">
+      <div class="sec-label rv">The Menu</div>
+      <div class="sec-rule rv rv-d1"></div>
 
-      <!-- Fresh Pasta -->
-      <div class="menu-category reveal">
-        <div class="menu-category-label cat-pasta">Fresh Pasta</div>
-        <div class="menu-grid">
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Tagliatelle al Rag&ugrave;</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;8.50</span>
-            </div>
-            <p class="menu-item-desc">Hand-cut ribbons with slow-cooked Bolognese, Parmigiano, fresh basil.</p>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Cacio e Pepe</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;7.00</span>
-            </div>
-            <p class="menu-item-desc">Tonnarelli pasta, Pecorino Romano, cracked Tellicherry black pepper.</p>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Spinach &amp; Ricotta Ravioli</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;9.00</span>
-            </div>
-            <p class="menu-item-desc">Delicate parcels in sage brown butter with toasted pine nuts.</p>
-          </div>
+      <p class="menu-intro rv rv-d2">Our menu is being finalised. Fresh pasta, antipasti, and pantry staples — made and sourced with care. Come back soon.</p>
+
+      <div class="menu-categories">
+        <div class="menu-cat rv">
+          <div class="menu-cat-name cat-red">Fresh<br>Pasta</div>
+          <p class="menu-cat-desc">Hand-shaped daily using bronze dies and slow-dried semolina. Tagliatelle, ravioli, tonnarelli — the kind of pasta that reminds you what pasta is supposed to taste like.</p>
+        </div>
+        <div class="menu-cat rv rv-d1">
+          <div class="menu-cat-name cat-olive">Antipasti</div>
+          <p class="menu-cat-desc">Small plates and counter dishes made each morning. Burrata, cured meats, roasted vegetables, things on good bread. Simple, seasonal, and ready to eat.</p>
+        </div>
+        <div class="menu-cat rv rv-d2">
+          <div class="menu-cat-name cat-dark">Pantry<br>Staples</div>
+          <p class="menu-cat-desc">Olive oils, passata, dried pasta, preserves — sourced directly from producers we know. The kind of ingredients that make home cooking feel different.</p>
         </div>
       </div>
 
-      <!-- Antipasti -->
-      <div class="menu-category reveal">
-        <div class="menu-category-label cat-antipasti">Antipasti &amp; Small Plates</div>
-        <div class="menu-grid">
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Burrata con Pomodorini</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;7.50</span>
-            </div>
-            <p class="menu-item-desc">Creamy Puglian burrata, roasted cherry tomatoes, basil oil, sourdough.</p>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Tagliere Misto</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;12.00</span>
-            </div>
-            <p class="menu-item-desc">Selection of cured meats, aged cheeses, cornichons, mostarda, grissini.</p>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Melanzane alla Parmigiana</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;6.50</span>
-            </div>
-            <p class="menu-item-desc">Layered aubergine bake with San Marzano tomato, mozzarella, basil.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pantry -->
-      <div class="menu-category reveal">
-        <div class="menu-category-label cat-pantry">Pantry Staples</div>
-        <div class="menu-grid">
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Olio Extra Vergine</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;14.00</span>
-            </div>
-            <p class="menu-item-desc">Single-estate Sicilian olive oil, cold-pressed, grassy and peppery. 500ml.</p>
-          </div>
-          <div class="menu-item">
-            <div class="menu-item-header">
-              <span class="menu-item-name">Passata di Pomodoro</span>
-              <span class="menu-item-dots"></span>
-              <span class="menu-item-price">&pound;4.50</span>
-            </div>
-            <p class="menu-item-desc">Hand-crushed tomato passata from a family farm in Campania. 680g jar.</p>
-          </div>
-        </div>
+      <div class="menu-soon rv">
+        <p>Full menu coming soon.<br>We're getting everything just right.</p>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       OPENING HOURS
-  ═══════════════════════════════════════════ -->
-  <section class="hours section-pad" id="hours">
-    <div class="container">
-      <div class="section-label reveal">When We're Open</div>
-      <h2 class="section-heading reveal">Opening Hours</h2>
-      <div class="section-divider reveal"></div>
-
-      <div class="hours-layout">
-        <div class="reveal">
-          <div class="hours-table">
-            <div class="hours-row">
-              <span class="hours-day">Monday</span>
-              <span class="hours-time">9:00 &ndash; 17:30</span>
-            </div>
-            <div class="hours-row">
-              <span class="hours-day">Tuesday</span>
-              <span class="hours-time">9:00 &ndash; 17:30</span>
-            </div>
-            <div class="hours-row">
-              <span class="hours-day">Wednesday</span>
-              <span class="hours-time">9:00 &ndash; 17:30</span>
-            </div>
-            <div class="hours-row">
-              <span class="hours-day">Thursday</span>
-              <span class="hours-time">9:00 &ndash; 18:00</span>
-            </div>
-            <div class="hours-row">
-              <span class="hours-day">Friday</span>
-              <span class="hours-time">9:00 &ndash; 18:00</span>
-            </div>
-            <div class="hours-row">
-              <span class="hours-day">Saturday</span>
-              <span class="hours-time">8:30 &ndash; 17:00</span>
-            </div>
-            <div class="hours-row">
-              <span class="hours-day">Sunday</span>
-              <span class="hours-time closed">Closed</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hours-note reveal">
-          <h4>A Note on Freshness</h4>
-          <p>Our fresh pasta and antipasti are made each morning. We sometimes sell out before closing &mdash; especially the ravioli on Saturdays. If you're after something specific, it never hurts to ring ahead. We'd rather tell you honestly than disappoint you at the counter.</p>
-        </div>
-      </div>
+  <!-- ═══ HOURS ═══ -->
+  <section class="hours has-grain" id="hours">
+    <div class="hours-inner">
+      <div class="sec-label rv">Opening Hours</div>
+      <div class="sec-rule rv rv-d1"></div>
+      <h2 class="hours-heading rv rv-d2">Opening Soon</h2>
+      <p class="hours-message rv rv-d3">We're putting the finishing touches on everything. Drop us a message to be the first to know when we open our doors.</p>
+      <a href="#contact" class="hours-cta rv rv-d4">Get in Touch</a>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       CONTACT / FIND US
-  ═══════════════════════════════════════════ -->
-  <section class="contact section-pad" id="contact">
-    <div class="container">
-      <div class="section-label reveal">Find Us</div>
-      <h2 class="section-heading reveal">Get in Touch</h2>
-      <div class="section-divider reveal"></div>
+  <!-- ═══ CONTACT ═══ -->
+  <section class="contact has-grain" id="contact">
+    <div class="contact-inner">
+      <div class="sec-label rv">Find Us</div>
+      <div class="sec-rule rv rv-d1"></div>
 
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <h3>Visit the Deli</h3>
-          <div class="contact-detail">
-            <div class="contact-detail-label">Address</div>
+      <div class="contact-layout">
+        <div class="contact-info rv rv-d2">
+          <h3>Visit Us</h3>
+          <div class="contact-block">
+            <div class="contact-block-label">Address</div>
             <p>29 Longbrooke Street<br>Exeter, Devon</p>
           </div>
-          <div class="contact-detail">
-            <div class="contact-detail-label">Telephone</div>
-            <p>01392 29 00 29</p>
-          </div>
-          <div class="contact-detail">
-            <div class="contact-detail-label">Email</div>
-            <p>hello@pasta29.co.uk</p>
+          <div class="contact-block">
+            <div class="contact-block-label">Email</div>
+            <p><a href="mailto:hello@pasta29.co.uk">hello@pasta29.co.uk</a></p>
           </div>
 
-          <div class="map-placeholder">
-            <span>Map &middot; 29 Longbrooke Street, Exeter</span>
+          <div class="map-frame">
+            <span>29 Longbrooke Street, Exeter</span>
           </div>
         </div>
 
-        <div class="contact-form reveal">
+        <div class="contact-right rv rv-d3">
           <h3>Send a Message</h3>
           <form id="contactForm" onsubmit="return false;">
             <div class="form-group">
-              <label for="formName">Your Name</label>
-              <input type="text" id="formName" name="name" required autocomplete="name">
+              <label for="fName">Name</label>
+              <input type="text" id="fName" name="name" autocomplete="name" required>
             </div>
             <div class="form-group">
-              <label for="formEmail">Email Address</label>
-              <input type="email" id="formEmail" name="email" required autocomplete="email">
+              <label for="fEmail">Email</label>
+              <input type="email" id="fEmail" name="email" autocomplete="email" required>
             </div>
             <div class="form-group">
-              <label for="formMessage">Message</label>
-              <textarea id="formMessage" name="message" required></textarea>
+              <label for="fMsg">Message</label>
+              <textarea id="fMsg" name="message" required></textarea>
             </div>
-            <button type="submit" class="form-submit">Send Message</button>
+            <button type="submit" class="form-btn">Send</button>
           </form>
+
+          <div class="email-capture">
+            <h4>Be the first to know</h4>
+            <p>Leave your email and we'll let you know when we open.</p>
+            <form class="email-row" onsubmit="return false;">
+              <input type="email" placeholder="Your email address" aria-label="Email address" required>
+              <button type="submit">Notify Me</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════
-       FOOTER
-  ═══════════════════════════════════════════ -->
+  <!-- ═══ FOOTER ═══ -->
   <footer class="footer">
     <div class="footer-brand">Pasta 29</div>
     <p>Italian Delicatessen &middot; 29 Longbrooke Street, Exeter</p>
   </footer>
 
-  <!-- ═══════════════════════════════════════════
-       SCRIPTS
-  ═══════════════════════════════════════════ -->
   <script>
-    // Navbar scroll effect
+    // ── Hero letter animation ──
+    (function() {
+      const title = document.getElementById('heroTitle');
+      const text = 'PASTA 29';
+      let html = '';
+      let idx = 0;
+
+      for (let i = 0; i < text.length; i++) {
+        if (text[i] === ' ') {
+          html += ' ';
+        } else {
+          const delay = 0.5 + idx * 0.07;
+          html += '<span class="letter" style="animation-delay:' + delay + 's">' + text[i] + '</span>';
+          idx++;
+        }
+      }
+
+      title.innerHTML = html;
+    })();
+
+    // ── Nav scroll ──
     const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          nav.classList.toggle('scrolled', window.scrollY > 80);
+          ticking = false;
+        });
+        ticking = true;
+      }
     }, { passive: true });
 
-    // Mobile menu toggle
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
+    // ── Mobile nav ──
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    toggle.addEventListener('click', function() { links.classList.toggle('open'); });
+    links.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { links.classList.remove('open'); });
     });
 
-    // Close mobile menu on link click
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-      });
-    });
-
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+    // ── Scroll reveal ──
+    var reveals = document.querySelectorAll('.rv');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('vis');
+          observer.unobserve(e.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.12 });
 
-    reveals.forEach(el => observer.observe(el));
+    reveals.forEach(function(el) { observer.observe(el); });
   </script>
 
 </body>
