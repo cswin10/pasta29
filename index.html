@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pasta 29 · Fresh Pasta · Longbrook Street, Exeter</title>
-  <meta name="description" content="Fresh pasta made every day on Longbrook Street, Exeter. A family business that loves this city, pasta, and looking after people. Opening soon.">
+  <meta name="description" content="Fresh pasta in every day and sauces cooked from scratch, on Longbrook Street, Exeter. A family business that loves this city, pasta, and looking after people. Opening soon.">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Pasta 29 · Longbrook Street, Exeter">
-  <meta property="og:description" content="Fresh pasta made every day on Longbrook Street, Exeter. Opening soon.">
+  <meta property="og:description" content="Fresh pasta in every day, sauces cooked from scratch. Longbrook Street, Exeter. Opening soon.">
   <!-- TODO: og:image once we have the shopfront or food photography (1200x630) -->
 
   <!-- Favicon: gold 29 on the shopfront navy -->
@@ -224,6 +224,7 @@
     /* Per-letter reveal, injected by JS */
     .ltr {
       display: inline-block;
+      font-style: normal;
       opacity: 0; transform: translateY(0.3em); filter: blur(7px);
       animation: ltrIn 1s var(--ease) forwards;
       animation-delay: calc(var(--i) * 55ms + 250ms);
@@ -239,26 +240,6 @@
     }
     .hero-note { margin-top: 1.3rem; font-size: 0.9rem; color: rgba(244, 242, 236, 0.5); }
 
-    .hero-scroll {
-      position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
-      z-index: 1;
-    }
-    .hero-scroll span {
-      font-family: 'Jost', sans-serif; font-size: 0.6rem;
-      letter-spacing: 0.3em; text-transform: uppercase;
-      color: rgba(244, 242, 236, 0.35);
-    }
-    .hero-scroll i {
-      display: block; width: 1px; height: 46px;
-      background: linear-gradient(var(--gold), transparent);
-      transform-origin: top;
-      animation: drop 2.4s var(--ease) infinite;
-    }
-    @keyframes drop {
-      0%, 100% { transform: scaleY(0.35); opacity: 0.4; }
-      50%      { transform: scaleY(1);    opacity: 1; }
-    }
 
     /* ════════════════════════════════════════════
        STORY
@@ -639,7 +620,6 @@
       .nav-links.open { max-height: 320px; }
       .nav-links a { padding: 1.05rem 1.6rem; border-top: 1px solid var(--light-line); }
       .nav-links a::after { display: none; }
-      .hero-scroll { display: none; }
     }
   </style>
 </head>
@@ -676,10 +656,9 @@
       <p class="hero-eyebrow">Longbrook Street &middot; Exeter</p>
       <h1 class="hero-title wm" id="heroTitle"><span class="wm-p">Pasta</span><span class="wm-29">29</span></h1>
       <div class="hero-rule"></div>
-      <p class="hero-tag">Fresh pasta, made every day</p>
+      <p class="hero-tag">Fresh pasta, sauces cooked slow</p>
       <p class="hero-note">Opening soon</p>
     </div>
-    <div class="hero-scroll" aria-hidden="true"><span>Scroll</span><i></i></div>
   </section>
 
   <!-- ═══════════════════════════ STORY ═══════════════════════════ -->
@@ -730,7 +709,7 @@
         <p class="chef-years">Twenty years in Exeter kitchens</p>
       </div>
       <div class="chef-copy rv rv-d1">
-        <p>First head chef of a Gandy Street restaurant from 2003, then seven years running a kitchen in Princesshay. Ask him about the lasagne and he will tell you it takes two days: ragù cooked low and rested overnight, then layered the next morning with béchamel, parmesan and basil.</p>
+        <p>He opened Zizzi on Gandy Street in 2003 as its first head chef, stayed eight years, then ran a kitchen in Princesshay for seven more. Ask him about the lasagne and he will tell you it takes two days: ragù cooked low and rested overnight, then layered the next morning with béchamel, parmesan and basil.</p>
       </div>
     </div>
   </section>
@@ -743,7 +722,7 @@
       <div class="menu-head">
         <span class="wm">Pasta<span class="wm-29">29</span></span>
         <h2 class="menu-title">Fresh Pasta</h2>
-        <p class="menu-sub">Made fresh every day</p>
+        <p class="menu-sub">Sauces cooked from scratch</p>
         <div class="menu-head-rule"></div>
       </div>
 
@@ -940,7 +919,7 @@
       title.querySelectorAll('span').forEach(function (part) {
         var out = '';
         part.textContent.split('').forEach(function (ch) {
-          out += '<i class="ltr" style="--i:' + (i++) + '">' + ch + '</i>';
+          out += '<span class="ltr" style="--i:' + (i++) + '">' + ch + '</span>';
         });
         part.innerHTML = out;
         part.setAttribute('aria-hidden', 'true');
