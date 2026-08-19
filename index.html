@@ -3,1441 +3,817 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pasta 29 — Italian Delicatessen · Exeter</title>
+  <title>Pasta 29 — Fresh Pasta · Longbrook Street, Exeter</title>
+  <meta name="description" content="Fresh pasta made every day on Longbrook Street, Exeter. A family business — customer first, quality first. Opening soon.">
+
+  <!-- Favicon: gold 29 on brand blue. Regenerate if the brand blue/gold change. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23232F5C'/%3E%3Ctext x='32' y='44' font-family='Georgia,Times New Roman,serif' font-size='30' font-weight='600' letter-spacing='1' text-anchor='middle' fill='%23D4B872'%3E29%3C/text%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Jost:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* ════════════════════════════════════════════════════════════
+       BRAND COLOURS
+
+       Sampled from the shopfront mock-up: navy fascia + gold sign
+       lettering, cream window frames. If the painter's/signwriter's
+       exact codes differ, change ONLY --blue and --gold below and
+       the favicon above — everything else derives from them.
+    ════════════════════════════════════════════════════════════ */
     :root {
-      --parchment: #F5E6C8;
-      --red: #C8102E;
-      --olive: #2D6A2D;
-      --black: #1A1A1A;
-      --cream: #FDF6EC;
+      --blue:  #232F5C;   /* shopfront navy — matched to the paint in the mock-up */
+      --gold:  #D4B872;   /* sign gold — the lettering on the fascia */
+
+      /* Derived / neutral system */
+      --blue-deep:  #18213F;   /* the navy in shadow — footer, nav backdrop */
+      --offwhite:   #F4F2EC;   /* the cream of the window frames and awning */
+      --offwhite-2: #EBE7DE;
+      --ink:        #14171A;
+      --ink-soft:   #4A5157;
+
+      --gold-line:  rgba(212, 184, 114, 0.32);
+      --light-line: rgba(244, 242, 236, 0.14);
+      --dark-line:  rgba(24, 33, 63, 0.12);
+
+      --shell: min(1180px, 100% - 3rem);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
-      font-family: 'Lato', sans-serif;
-      color: var(--black);
-      line-height: 1.7;
+      font-family: 'Inter', system-ui, sans-serif;
       font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink);
+      background: var(--offwhite);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      background: var(--cream);
       overflow-x: hidden;
     }
 
-    h1, h2, h3, h4, h5 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      line-height: 1.15;
+    h1, h2, h3, h4 { font-family: 'Jost', system-ui, sans-serif; font-weight: 500; line-height: 1.12; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    ::selection { background: var(--gold); color: var(--blue-deep); }
+
+    /* ── Wordmark: PASTA 29, with 29 set larger (client request) ── */
+    /* Roman capitals, matched to the gold lettering on the fascia */
+    .wm {
+      color: var(--gold);
+      font-family: 'Cinzel', 'Jost', serif;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      display: inline-block;
+    }
+    .wm-29 {
+      font-size: 1.26em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-left: 0.16em;
     }
 
-    a { color: inherit; text-decoration: none; }
+    /* ── Shared bits ── */
+    .shell { width: var(--shell); margin-inline: auto; }
+
+    .eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .rule {
+      width: 44px; height: 1px;
+      background: var(--gold);
+      margin: 1.6rem 0 2.6rem;
+      transform-origin: left;
+    }
+    .rule.center { margin-inline: auto; }
+
+    .on-dark { background: var(--blue); color: var(--offwhite); }
+    .on-dark h2, .on-dark h3 { color: var(--offwhite); }
+    .on-dark p { color: rgba(244, 242, 236, 0.72); }
+
+    section { padding: clamp(5rem, 11vw, 9rem) 0; }
+
+    .lede { font-size: clamp(1.05rem, 1.6vw, 1.2rem); }
 
     /* ════════════════════════════════════════════
-       NAVIGATION
+       NAV
     ════════════════════════════════════════════ */
     .nav {
-      position: fixed;
-      top: 0; left: 0; width: 100%;
+      position: fixed; inset: 0 0 auto 0;
       z-index: 1000;
-      padding: 2.2rem 3.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.6rem max(1.5rem, calc((100% - var(--shell)) / 2));
+      transition: background 0.5s ease, padding 0.5s ease, box-shadow 0.5s ease;
     }
-
     .nav.scrolled {
-      background: rgba(10, 10, 10, 0.92);
-      padding: 1rem 3.5rem;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 1px 0 rgba(245, 230, 200, 0.04);
+      background: rgba(24, 33, 63, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding-block: 0.9rem;
+      box-shadow: 0 1px 0 var(--gold-line);
     }
 
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      transition: opacity 0.4s;
-    }
+    .nav-brand { font-size: 0.95rem; }
 
-    .nav-brand:hover { opacity: 1; }
-
-    .nav-logo-img {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      opacity: 0.8;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .nav.scrolled .nav-logo-img { width: 36px; height: 36px; }
-
-    .nav-brand:hover .nav-logo-img { opacity: 1; }
-
-    .nav-brand-text {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      transition: color 0.4s;
-    }
-
-    .nav-brand:hover .nav-brand-text { color: rgba(245, 230, 200, 0.8); }
-
-    .nav-links { display: flex; gap: 3rem; }
-
+    .nav-links { display: flex; gap: 2.4rem; }
     .nav-links a {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      transition: color 0.4s;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(244, 242, 236, 0.6);
+      transition: color 0.3s;
       position: relative;
     }
-
     .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--red);
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      content: ''; position: absolute; left: 0; bottom: -6px;
+      width: 0; height: 1px; background: var(--gold);
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    .nav-links a:hover { color: rgba(255,255,255,0.8); }
+    .nav-links a:hover { color: var(--offwhite); }
     .nav-links a:hover::after { width: 100%; }
 
     .nav-toggle {
       display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      flex-direction: column;
-      gap: 5px;
+      background: none; border: 0; cursor: pointer;
+      width: 30px; height: 22px;
+      flex-direction: column; justify-content: space-between;
     }
-
-    .nav-toggle span {
-      display: block;
-      width: 22px;
-      height: 1px;
-      background: rgba(255,255,255,0.5);
-      transition: all 0.3s;
-    }
-
-    /* ════════════════════════════════════════════
-       REVEAL SYSTEM
-    ════════════════════════════════════════════ */
-    .rv {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .rv.vis { opacity: 1; transform: none; }
-    .rv-d1 { transition-delay: 0.1s; }
-    .rv-d2 { transition-delay: 0.2s; }
-    .rv-d3 { transition-delay: 0.3s; }
-    .rv-d4 { transition-delay: 0.4s; }
-    .rv-d5 { transition-delay: 0.5s; }
-
-    /* Clip-path text reveal */
-    .rv-clip {
-      clip-path: inset(0 0 100% 0);
-      transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .rv-clip.vis { clip-path: inset(0 0 0% 0); }
-
-    /* Horizontal line draw */
-    .rv-line {
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .rv-line.vis { transform: scaleX(1); }
-
-    /* ════════════════════════════════════════════
-       SECTION LABEL
-    ════════════════════════════════════════════ */
-    .sec-label {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--olive);
-    }
-
-    .sec-rule {
-      width: 32px;
-      height: 1.5px;
-      background: var(--red);
-      margin-top: 0.7rem;
-      margin-bottom: 3.5rem;
-    }
-
-    /* ════════════════════════════════════════════
-       OLIVE BRANCH SVG ORNAMENT
-    ════════════════════════════════════════════ */
-    .ornament {
-      display: block;
-      margin: 0 auto;
-      overflow: visible;
-    }
-
-    .ornament path {
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* ════════════════════════════════════════════
-       SECTION DIVIDER
-    ════════════════════════════════════════════ */
-    .section-divider {
-      width: 100%;
-      padding: 2rem 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 5;
-    }
-
-    .divider-line {
-      flex: 1;
-      height: 1px;
-      max-width: 200px;
-    }
+    .nav-toggle span { display: block; height: 1px; width: 100%; background: var(--offwhite); transition: 0.3s; }
 
     /* ════════════════════════════════════════════
        HERO
     ════════════════════════════════════════════ */
     .hero {
-      min-height: 100vh;
-      min-height: 100dvh;
-      background: #080808;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      min-height: 100svh;
+      display: grid; place-items: center;
       text-align: center;
+      background: var(--blue);
+      color: var(--offwhite);
       position: relative;
+      padding: 7rem 1.5rem 5rem;
       overflow: hidden;
-      padding: 2rem;
     }
 
-    /* Multi-layer atmosphere */
-    .hero-atmosphere {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .hero-atmosphere::before {
+    /* Soft depth — replaced by the shopfront photo once we have it (see comment in markup) */
+    .hero::before {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 48%, rgba(200, 16, 46, 0.04) 0%, transparent 100%),
-        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(245, 230, 200, 0.025) 0%, transparent 100%),
-        radial-gradient(ellipse 50% 40% at 80% 65%, rgba(45, 106, 45, 0.015) 0%, transparent 100%),
-        radial-gradient(ellipse 120% 80% at 50% 100%, rgba(0,0,0,0.4) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 55% at 50% 32%, rgba(212, 184, 114, 0.14), transparent 70%),
+        radial-gradient(ellipse 90% 70% at 50% 120%, var(--blue-deep), transparent 65%);
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero-frame {
+      border: 1px solid var(--gold-line);
+      padding: clamp(2.6rem, 6vw, 4.4rem) clamp(1.4rem, 5vw, 4rem);
+      max-width: 860px;
     }
 
-    .hero-atmosphere::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.08;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 256px 256px;
-      mix-blend-mode: overlay;
+    .hero-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.68rem; font-weight: 400;
+      letter-spacing: 0.34em; text-transform: uppercase;
+      color: rgba(244, 242, 236, 0.6);
+      margin-bottom: 2rem;
     }
 
-    /* Vignette */
-    .hero-vignette {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      box-shadow: inset 0 0 200px 60px rgba(0,0,0,0.5);
+    .hero-title {
+      font-size: clamp(2.5rem, 10.5vw, 6.6rem);
+      letter-spacing: 0.06em;
+      line-height: 1;
+      padding-bottom: 0.12em;   /* room for the 9 descender */
+    }
+
+    .hero-rule { width: 60px; height: 1px; background: var(--gold); margin: 2.4rem auto; }
+
+    .hero-tag {
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(0.78rem, 1.7vw, 0.95rem);
+      font-weight: 300;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(244, 242, 236, 0.78);
+    }
+
+    .hero-note {
+      margin-top: 1.4rem;
+      font-size: 0.9rem;
+      color: rgba(244, 242, 236, 0.5);
+      letter-spacing: 0.04em;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
       z-index: 1;
     }
-
-    .hero-inner {
-      position: relative;
-      z-index: 3;
-      width: 100%;
-      max-width: 1300px;
+    .hero-scroll span:first-child {
+      font-family: 'Jost', sans-serif; font-size: 0.6rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(244, 242, 236, 0.35);
     }
-
-    /* Logo above subline */
-    .hero-logo {
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      transform: scale(0.85);
-      animation: logoIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-    }
-
-    .hero-logo img {
-      width: clamp(100px, 14vw, 140px);
-      height: clamp(100px, 14vw, 140px);
-      border-radius: 50%;
-      object-fit: cover;
-      filter: brightness(0.92) contrast(1.05);
-    }
-
-    @keyframes logoIn {
-      to { opacity: 1; transform: none; }
-    }
-
-    .hero-sub {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.05rem, 2.2vw, 1.45rem);
-      font-weight: 300;
-      font-style: italic;
-      color: rgba(245, 230, 200, 0.3);
-      letter-spacing: 0.15em;
-      margin-bottom: 2rem;
-      opacity: 0;
-      transform: translateY(25px);
-      animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-    }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: none; }
-    }
-
-    /* Title with clip-path reveal per word */
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 13vw, 14rem);
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: 0.03em;
-      line-height: 0.85;
-      margin-bottom: 0;
-      position: relative;
-    }
-
-    .hero-word {
-      display: inline-block;
-      overflow: hidden;
-      vertical-align: bottom;
-      padding-bottom: 0.15em;
-    }
-
-    .hero-word-inner {
-      display: inline-block;
-      transform: translateY(105%);
-      animation: wordSlide 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes wordSlide {
-      to { transform: none; }
-    }
-
-    /* Subtle text shadow for depth */
-    .hero-title .hero-word-inner {
-      text-shadow: 0 0 80px rgba(200, 16, 46, 0.08);
-    }
-
-    /* Red accent rule */
-    .hero-rule {
-      height: 1px;
-      width: 0;
-      background: var(--red);
-      margin: 3rem auto 2.2rem;
-      animation: ruleGrow 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
-    }
-
-    @keyframes ruleGrow {
-      to { width: min(320px, 45vw); }
-    }
-
-    /* Bottom tagline */
-    .hero-tag {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 400;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: rgba(245, 230, 200, 0.18);
-      opacity: 0;
-      animation: fadeUp 1s ease 2s forwards;
-    }
-
-    /* Scroll indicator */
-    .hero-scroll {
-      position: absolute;
-      bottom: 3rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      opacity: 0;
-      animation: fadeUp 1s ease 2.5s forwards;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .hero-scroll-text {
-      font-size: 0.5rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(245, 230, 200, 0.15);
-      writing-mode: vertical-rl;
-    }
-
-    .hero-scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(245,230,200,0.25), transparent);
-      animation: scrollPulse 2.5s ease-in-out infinite;
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 1; transform: scaleY(1); }
-      50% { opacity: 0.15; transform: scaleY(0.4); }
-    }
+    .hero-scroll i { display: block; width: 1px; height: 46px; background: linear-gradient(var(--gold), transparent); }
 
     /* ════════════════════════════════════════════
-       ABOUT
+       STORY
     ════════════════════════════════════════════ */
-    .about {
-      background: var(--parchment);
-      position: relative;
-      padding: 9rem 3.5rem;
-      overflow: hidden;
-    }
-
-    /* Grain */
-    .about::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 256px 256px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Warm gradient overlay */
-    .about::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 80% 20%, rgba(200, 16, 46, 0.03) 0%, transparent 50%),
-        radial-gradient(ellipse at 10% 90%, rgba(45, 106, 45, 0.02) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .about-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .about-layout {
+    .story-grid {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 7rem;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 6vw, 6rem);
       align-items: start;
-      margin-top: 1rem;
     }
-
-    .about-text p {
-      font-size: 1.12rem;
-      color: rgba(26, 26, 26, 0.68);
-      line-height: 1.95;
-      margin-bottom: 1.8rem;
+    .story-block + .story-block { margin-top: 3.2rem; }
+    .story-block h3 {
+      font-size: clamp(1.5rem, 2.6vw, 2rem);
+      margin-bottom: 1rem;
     }
+    .story-block p + p { margin-top: 1.1rem; }
+    .story-block p { color: var(--ink-soft); }
 
-    .about-text p:first-child::first-letter {
-      font-family: 'Playfair Display', serif;
-      font-size: 4.2em;
-      float: left;
-      line-height: 0.78;
-      margin-right: 0.08em;
-      margin-top: 0.08em;
-      color: var(--red);
-      font-weight: 900;
+    .quote {
+      border-left: 2px solid var(--gold);
+      padding: 0.4rem 0 0.4rem 1.8rem;
+      margin: 0 0 2.4rem;
     }
-
-    .about-right {
-      padding-top: 0.5rem;
-    }
-
-    .about-quote {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.6rem, 2.8vw, 2.2rem);
-      font-style: italic;
-      font-weight: 400;
-      line-height: 1.45;
-      color: var(--black);
-      position: relative;
-      padding-left: 2rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .about-quote::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.15em;
-      bottom: 0.15em;
-      width: 2.5px;
-      background: linear-gradient(to bottom, var(--red), rgba(200, 16, 46, 0.2));
-    }
-
-    .about-cite {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
+    .quote-word {
+      font-family: 'Jost', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 500;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: rgba(26,26,26,0.28);
-      padding-left: 2rem;
-      margin-bottom: 3.5rem;
+      color: var(--blue);
+      display: block;
+      margin-bottom: 0.6rem;
     }
+    .quote p { color: var(--ink-soft); font-size: 1.02rem; }
 
-    /* Decorative detail boxes */
-    .about-detail {
-      padding: 1.5rem 0;
-      border-top: 1px solid rgba(26,26,26,0.06);
+    .facts { display: grid; gap: 1.6rem; margin-top: 2.6rem; }
+    .fact { border-top: 1px solid var(--dark-line); padding-top: 1.1rem; }
+    .fact h4 {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 0.5rem;
     }
+    .fact p { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.65; }
 
-    .about-detail h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      font-style: italic;
-      color: var(--black);
-      margin-bottom: 0.3rem;
+    /* ── Chef strip ── */
+    .chef { background: var(--offwhite-2); }
+    .chef-grid { display: grid; grid-template-columns: 1fr 1.35fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+    .chef-name { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin-bottom: 0.6rem; }
+    .chef-role {
+      font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold);
     }
-
-    .about-detail p {
-      font-size: 0.88rem;
-      color: rgba(26,26,26,0.42);
-      line-height: 1.65;
-    }
+    .chef-copy p { color: var(--ink-soft); }
+    .chef-copy p + p { margin-top: 1.1rem; }
 
     /* ════════════════════════════════════════════
        MENU
     ════════════════════════════════════════════ */
-    .menu {
-      background: var(--black);
-      position: relative;
-      padding: 9rem 3.5rem 10rem;
-      overflow: hidden;
-      color: #fff;
-    }
-
-    /* Background layers */
-    .menu::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 30% 40%, rgba(200, 16, 46, 0.03) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 70%, rgba(45, 106, 45, 0.02) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .menu::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.05;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 256px 256px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Giant "29" watermark */
-    .menu-watermark {
-      position: absolute;
-      top: 50%;
-      right: 5%;
+    .menu { position: relative; overflow: hidden; }
+    .menu-mark {
+      position: absolute; top: 50%; right: -3vw;
       transform: translateY(-50%);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(18rem, 34vw, 40rem);
-      font-weight: 600;
-      font-style: italic;
-      color: rgba(255, 255, 255, 0.02);
-      line-height: 1;
-      pointer-events: none;
-      z-index: 0;
-      user-select: none;
-    }
-
-    .menu-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .menu .sec-label { color: rgba(45, 106, 45, 0.5); }
-    .menu .sec-rule { background: rgba(200, 16, 46, 0.4); }
-
-    .menu-intro {
-      max-width: 550px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-style: italic;
-      font-weight: 300;
-      color: rgba(255,255,255,0.35);
-      line-height: 1.8;
-      margin-bottom: 5rem;
-    }
-
-    .menu-categories {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .menu-cat {
-      padding: 3rem 2.5rem;
-      border: 1px solid rgba(255,255,255,0.04);
-      position: relative;
-      transition: border-color 0.5s ease, background 0.5s ease;
-    }
-
-    .menu-cat:hover {
-      border-color: rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.015);
-    }
-
-    .menu-cat-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 4rem;
-      font-weight: 900;
-      font-style: italic;
-      line-height: 1;
-      margin-bottom: 1.5rem;
-      opacity: 0.06;
-    }
-
-    .menu-cat-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      font-style: italic;
-      line-height: 1.25;
-      margin-bottom: 1rem;
-    }
-
-    .menu-cat-name.cat-red { color: var(--red); }
-    .menu-cat-name.cat-olive { color: var(--olive); }
-    .menu-cat-name.cat-warm { color: var(--parchment); }
-
-    .menu-cat-rule {
-      width: 24px;
-      height: 1px;
-      margin-bottom: 1.2rem;
-    }
-
-    .menu-cat-rule.rule-red { background: rgba(200, 16, 46, 0.4); }
-    .menu-cat-rule.rule-olive { background: rgba(45, 106, 45, 0.4); }
-    .menu-cat-rule.rule-warm { background: rgba(245, 230, 200, 0.2); }
-
-    .menu-cat-desc {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.32);
-      line-height: 1.8;
-    }
-
-    .menu-footer {
-      margin-top: 5rem;
-      text-align: center;
-      position: relative;
-    }
-
-    .menu-footer::before {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 1px;
-      background: rgba(255,255,255,0.06);
-      margin: 0 auto 3rem;
-    }
-
-    .menu-footer-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.3rem, 2.2vw, 1.6rem);
-      font-style: italic;
-      font-weight: 300;
-      color: rgba(255,255,255,0.25);
-      max-width: 480px;
-      margin: 0 auto;
-      line-height: 1.65;
-    }
-
-    /* ════════════════════════════════════════════
-       HOURS
-    ════════════════════════════════════════════ */
-    .hours {
-      background: var(--cream);
-      position: relative;
-      padding: 9rem 3.5rem;
-      overflow: hidden;
-    }
-
-    .hours-inner {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hours-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 6vw, 5rem);
-      font-weight: 900;
-      font-style: italic;
-      color: var(--black);
-      margin-bottom: 2rem;
-      position: relative;
-    }
-
-    .hours-message {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.3rem, 2.5vw, 1.65rem);
-      font-style: italic;
-      font-weight: 300;
-      color: rgba(26,26,26,0.4);
-      line-height: 1.7;
-      max-width: 500px;
-      margin: 0 auto 3.5rem;
-    }
-
-    .hours-cta {
-      display: inline-block;
-      font-family: 'Lato', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--black);
-      padding: 1.15rem 3rem;
-      border: 1px solid rgba(26,26,26,0.12);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hours-cta::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--red);
-      transform: translateY(101%);
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .hours-cta span {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hours-cta:hover {
-      color: #fff;
-      border-color: var(--red);
-    }
-
-    .hours-cta:hover::before {
-      transform: none;
-    }
-
-    /* ════════════════════════════════════════════
-       CONTACT
-    ════════════════════════════════════════════ */
-    .contact {
-      background: var(--parchment);
-      position: relative;
-      padding: 9rem 3.5rem;
-      overflow: hidden;
-    }
-
-    .contact::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 256px 256px;
-      pointer-events: none;
+      font-family: 'Jost', sans-serif; font-weight: 600;
+      font-size: clamp(14rem, 34vw, 30rem);
+      line-height: 0.8;
+      color: rgba(212, 184, 114, 0.07);
+      pointer-events: none; user-select: none;
       z-index: 0;
     }
+    .menu .shell { position: relative; z-index: 1; }
 
-    .contact-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
+    .menu-note {
+      max-width: 46ch; margin-bottom: 3.6rem;
+      color: rgba(244, 242, 236, 0.72);
     }
 
-    .contact-layout {
+    .dishes { display: grid; gap: 0; }
+    .dish {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 7rem;
-      margin-top: 1rem;
-    }
-
-    .contact-info h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 600;
-      font-style: italic;
-      margin-bottom: 2.5rem;
-    }
-
-    .contact-block {
-      margin-bottom: 2.2rem;
-    }
-
-    .contact-block-label {
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(26,26,26,0.25);
-      margin-bottom: 0.45rem;
-    }
-
-    .contact-block p {
-      font-size: 1.08rem;
-      color: var(--black);
-      line-height: 1.65;
-    }
-
-    .contact-block a {
-      transition: color 0.3s;
-      position: relative;
-    }
-
-    .contact-block a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: var(--red);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .contact-block a:hover { color: var(--red); }
-    .contact-block a:hover::after { transform: scaleX(1); }
-
-    .map-frame {
-      width: 100%;
-      height: 220px;
-      margin-top: 3rem;
-      border: 1px solid rgba(26,26,26,0.05);
-      background: rgba(26,26,26,0.02);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .map-frame::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to right, rgba(26,26,26,0.012) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(26,26,26,0.012) 1px, transparent 1px);
-      background-size: 32px 32px;
-    }
-
-    /* Decorative pin */
-    .map-pin {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-    }
-
-    .map-pin::before {
-      content: '';
-      display: block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 2px solid var(--red);
-      opacity: 0.3;
-    }
-
-    .map-pin::after {
-      content: '';
-      display: block;
-      width: 2px;
-      height: 2px;
-      border-radius: 50%;
-      background: var(--red);
-      margin: -7px auto 0;
-      opacity: 0.4;
-    }
-
-    .map-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(26,26,26,0.18);
-      font-weight: 700;
-      position: relative;
-      z-index: 2;
-      margin-top: 2rem;
-    }
-
-    .contact-right h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 600;
-      font-style: italic;
-      margin-bottom: 2.5rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(26,26,26,0.3);
-      margin-bottom: 0.55rem;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 0.9rem 0;
-      font-family: 'Lato', sans-serif;
-      font-size: 1rem;
-      font-weight: 300;
-      border: none;
-      border-bottom: 1px solid rgba(26,26,26,0.1);
-      background: transparent;
-      color: var(--black);
-      outline: none;
-      transition: border-color 0.4s;
-      border-radius: 0;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-bottom-color: var(--red);
-    }
-
-    .form-group textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .form-btn {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.62rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: #fff;
-      background: var(--black);
-      border: none;
-      padding: 1.15rem 3rem;
-      cursor: pointer;
-      transition: background 0.4s ease;
-      margin-top: 0.5rem;
-    }
-
-    .form-btn:hover { background: var(--red); }
-
-    /* Email capture */
-    .email-capture {
-      margin-top: 4rem;
-      padding-top: 3.5rem;
-      border-top: 1px solid rgba(26,26,26,0.06);
-    }
-
-    .email-capture-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      font-style: italic;
-      font-weight: 500;
-      color: var(--black);
-      margin-bottom: 0.4rem;
-    }
-
-    .email-capture p {
-      font-size: 0.88rem;
-      color: rgba(26,26,26,0.4);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-
-    .email-row {
-      display: flex;
-      gap: 0;
-    }
-
-    .email-row input {
-      flex: 1;
-      padding: 0.9rem 0;
-      font-family: 'Lato', sans-serif;
-      font-size: 1rem;
-      font-weight: 300;
-      border: none;
-      border-bottom: 1px solid rgba(26,26,26,0.1);
-      background: transparent;
-      color: var(--black);
-      outline: none;
-      border-radius: 0;
-      transition: border-color 0.4s;
-    }
-
-    .email-row input:focus { border-bottom-color: var(--red); }
-
-    .email-row button {
-      font-family: 'Lato', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #fff;
-      background: var(--red);
-      border: none;
-      padding: 0.9rem 2rem;
-      cursor: pointer;
-      white-space: nowrap;
+      grid-template-columns: 3.5rem 1fr;
+      gap: 1.6rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--light-line);
       transition: background 0.4s;
-      margin-left: 1rem;
-      align-self: flex-end;
+    }
+    .dish-num {
+      font-family: 'Jost', sans-serif; font-weight: 400;
+      font-size: 0.95rem; letter-spacing: 0.1em;
+      color: var(--gold); padding-top: 0.35rem;
+    }
+    .dish-name {
+      font-family: 'Jost', sans-serif; font-weight: 500;
+      font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+      letter-spacing: 0.03em;
+      color: var(--offwhite);
+      margin-bottom: 0.5rem;
+      display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap;
+    }
+    .dish-desc { color: rgba(244, 242, 236, 0.7); max-width: 62ch; font-size: 0.98rem; }
+    .tag {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.58rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-line);
+      padding: 0.22rem 0.55rem;
+      white-space: nowrap;
+    }
+    .tag.house { color: var(--blue-deep); background: var(--gold); border-color: var(--gold); }
+
+    .menu-foot {
+      display: grid; grid-template-columns: 1.4fr 1fr;
+      gap: clamp(2rem, 5vw, 4.5rem);
+      margin-top: 3.6rem;
+      padding-top: 2.6rem;
+      border-top: 1px solid var(--gold-line);
+    }
+    .menu-foot h4 {
+      font-family: 'Jost', sans-serif; font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .drinks { list-style: none; columns: 2; column-gap: 2rem; }
+    .drinks li {
+      font-size: 0.95rem; color: rgba(244, 242, 236, 0.72);
+      padding: 0.3rem 0; break-inside: avoid;
+    }
+    .diet p { font-size: 0.95rem; }
+    .diet p + p { margin-top: 0.8rem; }
+
+    /* ════════════════════════════════════════════
+       DELI
+    ════════════════════════════════════════════ */
+    .deli-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+    .deli-card {
+      border: 1px solid var(--dark-line);
+      padding: clamp(1.8rem, 4vw, 2.8rem);
+      background: #fff;
+    }
+    .deli-card .wm { font-size: 1.15rem; color: var(--blue); }
+    .deli-card .wm-29 { color: var(--gold); }
+    .deli-card p { color: var(--ink-soft); font-size: 0.96rem; margin-top: 1rem; }
+    .deli-card .soon {
+      font-family: 'Jost', sans-serif; font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-top: 1.4rem;
+    }
+    .deli-copy h2 { font-size: clamp(1.9rem, 4vw, 2.9rem); margin-bottom: 1.2rem; }
+    .deli-copy p { color: var(--ink-soft); }
+    .deli-copy p + p { margin-top: 1.1rem; }
+
+    /* ════════════════════════════════════════════
+       OPENING / CONTACT
+    ════════════════════════════════════════════ */
+    .open { text-align: center; }
+    .open h2 { font-size: clamp(2.2rem, 6vw, 4rem); margin-bottom: 1.4rem; padding-bottom: 0.08em; }
+    .open p { max-width: 52ch; margin-inline: auto; }
+
+    .signup { display: flex; gap: 0.7rem; max-width: 460px; margin: 2.8rem auto 0; flex-wrap: wrap; }
+    .signup input {
+      flex: 1 1 220px;
+      background: transparent;
+      border: 1px solid var(--light-line);
+      color: var(--offwhite);
+      font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 300;
+      padding: 0.95rem 1.1rem;
+      transition: border-color 0.3s;
+    }
+    .signup input::placeholder { color: rgba(244, 242, 236, 0.4); }
+    .signup input:focus { outline: none; border-color: var(--gold); }
+    .signup button {
+      font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      background: var(--gold); color: var(--blue-deep);
+      border: 1px solid var(--gold);
+      padding: 0.95rem 1.7rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .signup button:hover { background: transparent; color: var(--gold); }
+    .signup-msg {
+      font-size: 0.85rem; color: var(--gold);
+      margin-top: 1rem; min-height: 1.2em;
+      letter-spacing: 0.04em;
     }
 
-    .email-row button:hover { background: #9a0c24; }
+    .find-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      text-align: left;
+      margin-top: 4.5rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--light-line);
+    }
+    .find-col h4 {
+      font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .find-col p, .find-col a { font-size: 0.96rem; color: rgba(244, 242, 236, 0.72); }
+    .find-col a { border-bottom: 1px solid transparent; transition: border-color 0.3s, color 0.3s; }
+    .find-col a:hover { color: var(--gold); border-color: var(--gold-line); }
+    .socials { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+    .socials .pending { color: rgba(244, 242, 236, 0.4); font-size: 0.82rem; letter-spacing: 0.04em; }
 
     /* ════════════════════════════════════════════
        FOOTER
     ════════════════════════════════════════════ */
     .footer {
-      background: #060606;
-      padding: 5rem 3.5rem;
+      background: var(--blue-deep);
+      color: rgba(244, 242, 236, 0.5);
       text-align: center;
-      position: relative;
-      overflow: hidden;
+      padding: 4rem 1.5rem;
+      border-top: 1px solid var(--gold-line);
     }
-
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(245, 230, 200, 0.06), transparent);
-    }
-
-    .footer-logo {
-      margin-bottom: 2rem;
-    }
-
-    .footer-logo img {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      object-fit: cover;
-      opacity: 0.2;
-      filter: grayscale(0.5);
-      margin: 0 auto;
-    }
-
-    .footer-brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
+    .footer .wm { font-size: 1.35rem; }
     .footer-sub {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.9rem;
-      font-style: italic;
-      color: rgba(255,255,255,0.08);
-      letter-spacing: 0.05em;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase;
+      margin-top: 1.2rem;
     }
 
     /* ════════════════════════════════════════════
-       PARALLAX FLOATERS
+       REVEAL
     ════════════════════════════════════════════ */
-    .parallax-item {
-      position: absolute;
-      pointer-events: none;
-      z-index: 0;
-      will-change: transform;
-      transition: transform 0.1s linear;
+    .rv { opacity: 0; transform: translateY(22px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+    .rv.vis { opacity: 1; transform: none; }
+    .rv-d1 { transition-delay: 0.1s; } .rv-d2 { transition-delay: 0.2s; }
+    .rv-d3 { transition-delay: 0.3s; } .rv-d4 { transition-delay: 0.4s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .rv { opacity: 1; transform: none; transition: none; }
+      * { animation: none !important; }
     }
 
     /* ════════════════════════════════════════════
        RESPONSIVE
     ════════════════════════════════════════════ */
     @media (max-width: 900px) {
-      .about-layout,
-      .contact-layout { grid-template-columns: 1fr; gap: 3.5rem; }
-      .menu-categories { grid-template-columns: 1fr; gap: 1.5rem; }
-      .about, .menu, .hours, .contact { padding: 6rem 2rem; }
-      .menu-cat { padding: 2.5rem 2rem; }
+      .story-grid, .chef-grid, .deli-grid, .menu-foot { grid-template-columns: 1fr; }
+      .find-grid { grid-template-columns: 1fr; gap: 2.4rem; }
+      .chef-grid > .chef-head { order: -1; }
     }
 
-    @media (max-width: 650px) {
-      .nav-links { display: none; }
+    @media (max-width: 720px) {
+      :root { --shell: min(1180px, 100% - 2.5rem); }
       .nav-toggle { display: flex; }
-      .nav { padding: 1.25rem 1.5rem; }
-      .nav.scrolled { padding: 0.9rem 1.5rem; }
-
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: rgba(10, 10, 10, 0.97);
-        padding: 2rem;
-        gap: 1.5rem;
-        backdrop-filter: blur(16px);
+      .nav-links {
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(24, 33, 63, 0.97);
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        max-height: 0; overflow: hidden;
+        transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1);
       }
-
-      .hero-title { letter-spacing: -0.01em; }
-      .hero-ornament svg { width: 50px; }
-      .about, .menu, .hours, .contact { padding: 5rem 1.25rem; }
-      .about-text p:first-child::first-letter { font-size: 3.2em; }
-      .menu-cat { padding: 2rem 1.5rem; }
-      .email-row { flex-direction: column; gap: 0.8rem; }
-      .email-row button { margin-left: 0; padding: 1rem 2rem; }
+      .nav-links.open { max-height: 320px; }
+      .nav-links a { padding: 1.1rem 1.6rem; border-top: 1px solid var(--light-line); }
+      .nav-links a::after { display: none; }
+      .dish { grid-template-columns: 2.2rem 1fr; gap: 1rem; }
+      .drinks { columns: 1; }
+      .hero-scroll { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══ NAV ═══ -->
+  <!-- ═══════════════════════════ NAV ═══════════════════════════ -->
   <nav class="nav" id="nav">
-    <a href="#hero" class="nav-brand">
-      <img class="nav-logo-img" src="a-rustic-artisan-italian-delicatessen-logo-for--pa__1_-removebg-preview.png" alt="Pasta 29 logo">
-      <span class="nav-brand-text">Pasta 29</span>
-    </a>
+    <a href="#hero" class="nav-brand wm">Pasta<span class="wm-29">29</span></a>
     <div class="nav-links" id="navLinks">
-      <a href="#about">About</a>
+      <a href="#story">Story</a>
       <a href="#menu">Menu</a>
-      <a href="#hours">Hours</a>
-      <a href="#contact">Find Us</a>
+      <a href="#deli">The Deli</a>
+      <a href="#find">Find Us</a>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
-  <!-- ═══ HERO ═══ -->
+  <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+  <!--
+    PHOTO SLOT: once we have the shot of the three of them outside the
+    shopfront, drop it in here as a background layer:
+
+      <img class="hero-photo" src="team-outside.jpg" alt="The Pasta 29 team outside the shop on Longbrook Street">
+
+    …and add to the CSS:
+      .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.35; z-index:0; }
+  -->
   <section class="hero" id="hero">
-    <div class="hero-atmosphere"></div>
-    <div class="hero-vignette"></div>
+    <div class="hero-frame">
+      <p class="hero-eyebrow">Longbrook Street &middot; Exeter</p>
 
-    <div class="hero-inner">
-      <div class="hero-logo">
-        <img src="a-rustic-artisan-italian-delicatessen-logo-for--pa__1_-removebg-preview.png" alt="Pasta 29 — circular badge with wheat and olive wreath">
-      </div>
-
-      <p class="hero-sub">Handmade. Honest. Exeter.</p>
-
-      <h1 class="hero-title" aria-label="PASTA 29">
-        <span style="white-space:nowrap"><span class="hero-word"><span class="hero-word-inner" style="animation-delay:0.7s">P</span></span><span class="hero-word"><span class="hero-word-inner" style="animation-delay:0.78s">A</span></span><span class="hero-word"><span class="hero-word-inner" style="animation-delay:0.86s">S</span></span><span class="hero-word"><span class="hero-word-inner" style="animation-delay:0.94s">T</span></span><span class="hero-word"><span class="hero-word-inner" style="animation-delay:1.02s">A</span></span>&nbsp;<span class="hero-word"><span class="hero-word-inner" style="animation-delay:1.18s">2</span></span><span class="hero-word"><span class="hero-word-inner" style="animation-delay:1.26s">9</span></span></span>
-      </h1>
+      <h1 class="hero-title wm" aria-label="Pasta 29">Pasta<span class="wm-29">29</span></h1>
 
       <div class="hero-rule"></div>
-      <p class="hero-tag">Italian Delicatessen</p>
+
+      <p class="hero-tag">Fresh pasta, made every day</p>
+      <p class="hero-note">Opening soon</p>
     </div>
 
     <div class="hero-scroll" aria-hidden="true">
-      <span class="hero-scroll-text">Scroll</span>
-      <span class="hero-scroll-line"></span>
+      <span>Scroll</span><i></i>
     </div>
   </section>
 
-  <!-- ═══ DIVIDER ═══ -->
-  <div class="section-divider" style="background:var(--parchment);">
-    <svg class="ornament" width="80" height="20" viewBox="0 0 80 20" aria-hidden="true">
-      <line x1="0" y1="10" x2="25" y2="10" stroke="rgba(26,26,26,0.08)" stroke-width="0.5"/>
-      <ellipse cx="34" cy="10" rx="2.5" ry="4" transform="rotate(-15 34 10)" stroke="rgba(45,106,45,0.15)" stroke-width="0.6" fill="none"/>
-      <ellipse cx="40" cy="10" rx="2" ry="3.5" stroke="rgba(45,106,45,0.12)" stroke-width="0.6" fill="none"/>
-      <ellipse cx="46" cy="10" rx="2.5" ry="4" transform="rotate(15 46 10)" stroke="rgba(45,106,45,0.15)" stroke-width="0.6" fill="none"/>
-      <line x1="55" y1="10" x2="80" y2="10" stroke="rgba(26,26,26,0.08)" stroke-width="0.5"/>
-    </svg>
-  </div>
+  <!-- ═══════════════════════════ STORY ═══════════════════════════ -->
+  <section class="story" id="story">
+    <div class="shell">
+      <div class="eyebrow rv">Our Story</div>
+      <div class="rule rv rv-d1"></div>
 
-  <!-- ═══ ABOUT ═══ -->
-  <section class="about" id="about">
-    <div class="about-inner">
-      <div class="sec-label rv">Our Story</div>
-      <div class="sec-rule rv rv-d1 rv-line"></div>
-
-      <div class="about-layout">
-        <div class="about-text">
-          <p class="rv">Berua loves Italian food. Not in the abstract — in the specific. The weight of good dried pasta in your hand. The colour of properly ripe San Marzanos. The way a real Parmigiano smells when you crack it open. He's spent years finding producers he trusts and learning to make things by hand, properly.</p>
-          <p class="rv rv-d1">Pasta 29 is his Italian delicatessen, coming to 29 Longbrooke Street, Exeter. Fresh pasta made daily. Antipasti prepared in-house. A carefully chosen pantry of ingredients worth caring about. Small, honest, and personal — the kind of place where the person behind the counter made everything on it.</p>
-        </div>
-        <div class="about-right">
-          <blockquote class="about-quote rv rv-d2">Good food doesn't need to be complicated. It needs someone who cares enough to do it properly.</blockquote>
-          <div class="about-cite rv rv-d3">Berua, Founder</div>
-
-          <div class="about-detail rv rv-d3">
-            <h4>Fresh pasta, daily</h4>
-            <p>Bronze dies, slow-dried semolina from Puglia, made each morning by hand.</p>
-          </div>
-          <div class="about-detail rv rv-d4">
-            <h4>Sourced directly</h4>
-            <p>Every product on our shelves comes from a producer we know and trust.</p>
-          </div>
-          <div class="about-detail rv rv-d5">
-            <h4>A place to linger</h4>
-            <p>Come for the pasta. Stay for the conversation.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ MENU ═══ -->
-  <section class="menu" id="menu">
-    <div class="menu-watermark" aria-hidden="true">29</div>
-    <div class="menu-inner">
-      <div class="sec-label rv">The Menu</div>
-      <div class="sec-rule rv rv-d1 rv-line"></div>
-
-      <p class="menu-intro rv rv-d2">Our menu is being finalised — fresh pasta, antipasti, and pantry staples, all made and sourced with care. Come back soon.</p>
-
-      <div class="menu-categories">
-        <div class="menu-cat rv">
-          <div class="menu-cat-number">I</div>
-          <div class="menu-cat-name cat-red">Fresh Pasta</div>
-          <div class="menu-cat-rule rule-red"></div>
-          <p class="menu-cat-desc">Hand-shaped daily using bronze dies and slow-dried semolina. Tagliatelle, ravioli, tonnarelli — the kind of pasta that reminds you what pasta is supposed to taste like.</p>
-        </div>
-        <div class="menu-cat rv rv-d2">
-          <div class="menu-cat-number">II</div>
-          <div class="menu-cat-name cat-olive">Antipasti</div>
-          <div class="menu-cat-rule rule-olive"></div>
-          <p class="menu-cat-desc">Small plates and counter dishes made each morning. Burrata, cured meats, roasted vegetables, things on good bread. Simple, seasonal, ready to eat.</p>
-        </div>
-        <div class="menu-cat rv rv-d4">
-          <div class="menu-cat-number">III</div>
-          <div class="menu-cat-name cat-warm">Pantry Staples</div>
-          <div class="menu-cat-rule rule-warm"></div>
-          <p class="menu-cat-desc">Olive oils, passata, dried pasta, preserves — sourced directly from small producers. The kind of ingredients that make home cooking feel entirely different.</p>
-        </div>
-      </div>
-
-      <div class="menu-footer rv">
-        <p class="menu-footer-text">Full menu coming soon.<br>We're getting everything just right.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ DIVIDER ═══ -->
-  <div class="section-divider" style="background:var(--cream);">
-    <svg class="ornament" width="80" height="20" viewBox="0 0 80 20" aria-hidden="true">
-      <line x1="0" y1="10" x2="30" y2="10" stroke="rgba(26,26,26,0.06)" stroke-width="0.5"/>
-      <circle cx="40" cy="10" r="2" stroke="rgba(200,16,46,0.15)" stroke-width="0.6" fill="none"/>
-      <line x1="50" y1="10" x2="80" y2="10" stroke="rgba(26,26,26,0.06)" stroke-width="0.5"/>
-    </svg>
-  </div>
-
-  <!-- ═══ HOURS ═══ -->
-  <section class="hours" id="hours">
-    <div class="hours-inner">
-      <div class="sec-label rv">Opening Hours</div>
-      <div class="sec-rule rv rv-d1 rv-line" style="margin-left:auto;margin-right:auto;"></div>
-
-      <h2 class="hours-heading rv rv-d2 rv-clip">Opening Soon</h2>
-
-      <p class="hours-message rv rv-d3">We're putting the finishing touches on everything. Drop us a message to be the first to know when we open our doors.</p>
-
-      <a href="#contact" class="hours-cta rv rv-d4"><span>Get in Touch</span></a>
-    </div>
-  </section>
-
-  <!-- ═══ CONTACT ═══ -->
-  <section class="contact" id="contact">
-    <div class="contact-inner">
-      <div class="sec-label rv">Find Us</div>
-      <div class="sec-rule rv rv-d1 rv-line"></div>
-
-      <div class="contact-layout">
-        <div class="contact-info rv rv-d2">
-          <h3>Visit the Deli</h3>
-          <div class="contact-block">
-            <div class="contact-block-label">Address</div>
-            <p>29 Longbrooke Street<br>Exeter, Devon</p>
-          </div>
-          <div class="contact-block">
-            <div class="contact-block-label">Email</div>
-            <p><a href="mailto:hello@pasta29.co.uk">hello@pasta29.co.uk</a></p>
+      <div class="story-grid">
+        <div>
+          <div class="story-block rv">
+            <h3>For the love of pasta</h3>
+            <p>It started with a trip to Italy. We went, we ate, we fell for it completely — the food, the people, the way a good bowl of pasta quietens a table for a second. We came home wanting to cook it for Exeter.</p>
+            <p>That's the whole reason. Not a business plan. Pasta, made properly, for people we know.</p>
           </div>
 
-          <div class="map-frame">
-            <div class="map-pin"></div>
-            <span class="map-label">29 Longbrooke Street, Exeter</span>
+          <div class="story-block rv rv-d1">
+            <h3>Why Longbrook Street</h3>
+            <p>Because it's ours. We opened a barber shop on this street. We opened a cocktail bar on this street. We know the faces — the students, the regulars, the people who walk past at eight in the morning and again at eleven at night.</p>
+            <p>This street has been good to us. We wanted to give it something it didn't have: somewhere to sit down, take a breath, have a coffee and a proper plate of pasta, and know the people who made it. A European feel, in your own neighbourhood.</p>
+          </div>
+
+          <div class="story-block rv rv-d2">
+            <h3>A family business</h3>
+            <p>Three of us, one kitchen. You'll meet us — we're the ones behind the counter. That's rather the point.</p>
           </div>
         </div>
 
-        <div class="contact-right rv rv-d3">
-          <h3>Send a Message</h3>
-          <form id="contactForm" onsubmit="return false;">
-            <div class="form-group">
-              <label for="fName">Name</label>
-              <input type="text" id="fName" name="name" autocomplete="name" required>
+        <div>
+          <blockquote class="quote rv rv-d1">
+            <span class="quote-word">Dasaw</span>
+            <p>A Kurdish word. It means the customer comes first — and then everything you put into the food after that: how carefully you prepare it, how you season it, how it tastes. All of it, for the person eating it.</p>
+            <p>It's the whole business in one word.</p>
+          </blockquote>
+
+          <div class="facts">
+            <div class="fact rv rv-d2">
+              <h4>Customer first</h4>
+              <p>If the food is good and the service isn't, nobody comes back. We look after people. That comes before everything.</p>
             </div>
-            <div class="form-group">
-              <label for="fEmail">Email</label>
-              <input type="email" id="fEmail" name="email" autocomplete="email" required>
+            <div class="fact rv rv-d2">
+              <h4>Quality over margin</h4>
+              <p>Good cheese. Fresh pasta in every day. Sauces cooked slow, never hurried. We'd rather break even for six months than serve something we aren't proud of — people travel for food worth travelling for.</p>
             </div>
-            <div class="form-group">
-              <label for="fMsg">Message</label>
-              <textarea id="fMsg" name="message" required></textarea>
+            <div class="fact rv rv-d3">
+              <h4>Made for the neighbourhood</h4>
+              <p>Easy food, healthy food, priced for a street full of students and regulars. Grab and go, or stay a while.</p>
             </div>
-            <button type="submit" class="form-btn">Send Message</button>
-          </form>
-
-          <div class="email-capture rv rv-d4">
-            <div class="email-capture-label">Be the first to know</div>
-            <p>Leave your email and we'll let you know when we open.</p>
-            <form class="email-row" onsubmit="return false;">
-              <input type="email" placeholder="Your email address" aria-label="Email address" required>
-              <button type="submit">Notify Me</button>
-            </form>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ FOOTER ═══ -->
+  <!-- ═══════════════════════════ CHEF ═══════════════════════════ -->
+  <section class="chef">
+    <div class="shell chef-grid">
+      <div class="chef-head rv">
+        <div class="chef-role">Head Chef</div>
+        <h2 class="chef-name">Mauro</h2>
+        <p style="color:var(--ink-soft);font-size:0.95rem;">Twenty years in Exeter kitchens</p>
+      </div>
+      <div class="chef-copy rv rv-d1">
+        <p>Mauro has been cooking in this city since 2003, when he opened a restaurant on Gandy Street as its first head chef. Eight years there, then seven more running a kitchen in Princesshay. He has cooked for a thousand people a week.</p>
+        <p>Ask him about the lasagne and he'll tell you it takes two days. The ragù goes on low for two hours and rests overnight. The next morning it's layered with béchamel, parmesan and basil, three layers deep, and baked. Twenty portions at a time. No shortcuts, because the shortcuts are the bit you can taste.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ MENU ═══════════════════════════ -->
+  <section class="menu on-dark" id="menu">
+    <div class="menu-mark" aria-hidden="true">29</div>
+    <div class="shell">
+      <div class="eyebrow rv">The Menu</div>
+      <div class="rule rv rv-d1"></div>
+
+      <p class="menu-note lede rv rv-d1">Six dishes, all made with fresh pasta, in every day. Small menu on purpose — we'd rather cook a few things properly than a lot of things adequately.</p>
+
+      <div class="dishes">
+        <article class="dish rv">
+          <div class="dish-num">01</div>
+          <div>
+            <h3 class="dish-name">Spaghetti Meatballs</h3>
+            <p class="dish-desc">Hand-rolled meatballs in a slow-cooked tomato sauce with garlic, onion and fresh basil.</p>
+          </div>
+        </article>
+
+        <article class="dish rv">
+          <div class="dish-num">02</div>
+          <div>
+            <h3 class="dish-name">Penne Funghi Pollo</h3>
+            <p class="dish-desc">Chicken and mushrooms in a garlic cream sauce, finished with parmesan.</p>
+          </div>
+        </article>
+
+        <article class="dish rv">
+          <div class="dish-num">03</div>
+          <div>
+            <h3 class="dish-name">Penne Arrabbiata <span class="tag">Vegetarian</span> <span class="tag">Vegan option</span></h3>
+            <p class="dish-desc">Tomato, garlic and chilli cooked down until it bites back, finished with basil.</p>
+          </div>
+        </article>
+
+        <article class="dish rv">
+          <div class="dish-num">04</div>
+          <div>
+            <h3 class="dish-name">Linguine Gamberi</h3>
+            <p class="dish-desc">King prawns and crayfish with garlic and fresh chilli in a tomato and cream sauce, lifted with white wine.</p>
+          </div>
+        </article>
+
+        <article class="dish rv">
+          <div class="dish-num">05</div>
+          <div>
+            <h3 class="dish-name">Pasta 29 Special <span class="tag house">House</span></h3>
+            <p class="dish-desc">Ours, and only ours. Three-coloured pasta with chicken, meatballs, mushrooms and courgette in a chilli tomato cream sauce, finished with parmesan.</p>
+          </div>
+        </article>
+
+        <article class="dish rv">
+          <div class="dish-num">06</div>
+          <div>
+            <h3 class="dish-name">Lasagne</h3>
+            <p class="dish-desc">Two days in the making. Beef ragù with carrot, onion and garlic, cooked low for hours and left overnight, then layered with béchamel, parmesan and basil and baked.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="menu-foot">
+        <div class="diet rv">
+          <h4>Good to know</h4>
+          <p>Vegetarian and vegan options on the menu. Any dish can be made gluten-free — we just change the pasta. Please tell us about allergies when you order.</p>
+          <p>Alongside the six, we'll run a <strong style="font-weight:500;color:var(--gold);">Pasta of the Week</strong> — one dish, rotating, in the shop and on our socials. Worth checking before you come.</p>
+        </div>
+        <div class="rv rv-d1">
+          <h4>Drinks</h4>
+          <ul class="drinks">
+            <li>Lemonade</li>
+            <li>Fanta</li>
+            <li>Coca-Cola Zero Sugar</li>
+            <li>Orange juice</li>
+            <li>Still water</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ DELI ═══════════════════════════ -->
+  <section class="deli" id="deli">
+    <div class="shell deli-grid">
+      <div class="deli-copy rv">
+        <div class="eyebrow">Next Door</div>
+        <div class="rule"></div>
+        <h2>One business, two counters</h2>
+        <p>Pasta 29 is the kitchen. Next to it sits our Italian deli — Italian produce, chosen properly, and coffee to sit in with. Same family, same street, same standards.</p>
+        <p>Different door, same people. If you've eaten with us, you already know how we buy.</p>
+      </div>
+      <div class="deli-card rv rv-d1">
+        <span class="wm">Italian&nbsp;Deli<span class="wm-29">29</span></span>
+        <p>Italian produce, sourced direct. Coffee, cheese, cured meats, oils and the pantry things worth carrying home.</p>
+        <p style="font-size:0.9rem;">29 Longbrook Street, Exeter</p>
+        <span class="soon">Its own page here, soon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ OPENING / FIND US ═══════════════════════════ -->
+  <section class="open on-dark" id="find">
+    <div class="shell">
+      <div class="eyebrow rv">Opening Soon</div>
+      <div class="rule center rv rv-d1"></div>
+
+      <h2 class="rv rv-d1">We're nearly there</h2>
+      <p class="lede rv rv-d2">The kitchen is going in, the sign is going up. Leave your email and we'll tell you the day we open.</p>
+
+      <form class="signup rv rv-d2" id="signupForm">
+        <label for="signupEmail" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Email address</label>
+        <input type="email" id="signupEmail" placeholder="Your email address" required>
+        <button type="submit">Notify Me</button>
+      </form>
+      <p class="signup-msg" id="signupMsg" role="status"></p>
+
+      <div class="find-grid">
+        <div class="find-col rv">
+          <h4>Where</h4>
+          <p>29 Longbrook Street<br>Exeter, Devon</p>
+        </div>
+        <div class="find-col rv rv-d1">
+          <h4>Hours</h4>
+          <p>Announced with our opening date.<br>Takeaway and eat-in.</p>
+        </div>
+        <div class="find-col rv rv-d2">
+          <h4>Follow</h4>
+          <div class="socials">
+            <!-- TODO: swap in the real handles once the Instagram + TikTok pages are live -->
+            <span class="pending">Instagram &mdash; coming soon</span>
+            <span class="pending">TikTok &mdash; coming soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
   <footer class="footer">
-    <div class="footer-logo">
-      <img src="a-rustic-artisan-italian-delicatessen-logo-for--pa__1_-removebg-preview.png" alt="Pasta 29">
-    </div>
-    <div class="footer-brand">Pasta 29</div>
-    <p class="footer-sub">Italian Delicatessen &middot; 29 Longbrooke Street, Exeter</p>
+    <span class="wm">Pasta<span class="wm-29">29</span></span>
+    <p class="footer-sub">Fresh Pasta &middot; 29 Longbrook Street, Exeter</p>
   </footer>
 
   <script>
-    /* ── Nav ── */
-    var nav = document.getElementById('nav');
-    var ticking = false;
-    window.addEventListener('scroll', function() {
-      if (!ticking) {
-        requestAnimationFrame(function() {
-          nav.classList.toggle('scrolled', window.scrollY > 80);
+    /* ── Nav background on scroll ── */
+    (function () {
+      var nav = document.getElementById('nav');
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          nav.classList.toggle('scrolled', window.scrollY > 60);
           ticking = false;
         });
-        ticking = true;
-      }
-    }, { passive: true });
+      }, { passive: true });
+    })();
 
     /* ── Mobile nav ── */
-    var toggle = document.getElementById('navToggle');
-    var links = document.getElementById('navLinks');
-    toggle.addEventListener('click', function() { links.classList.toggle('open'); });
-    links.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', function() { links.classList.remove('open'); });
-    });
-
-    /* ── Scroll reveal (IntersectionObserver) ── */
-    var revealEls = document.querySelectorAll('.rv');
-    var revealObs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          e.target.classList.add('vis');
-          revealObs.unobserve(e.target);
-        }
+    (function () {
+      var toggle = document.getElementById('navToggle');
+      var links = document.getElementById('navLinks');
+      toggle.addEventListener('click', function () {
+        var open = links.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(function(el) { revealObs.observe(el); });
-
-    /* ── Parallax on scroll for subtle depth ── */
-    var watermark = document.querySelector('.menu-watermark');
-    var heroInner = document.querySelector('.hero-inner');
-    var scrollY = 0;
-    var rafId = null;
-
-    function onScroll() {
-      scrollY = window.pageYOffset;
-      if (!rafId) {
-        rafId = requestAnimationFrame(function() {
-          /* Hero parallax — content moves up slower */
-          if (scrollY < window.innerHeight) {
-            heroInner.style.transform = 'translateY(' + (scrollY * 0.15) + 'px)';
-            heroInner.style.opacity = Math.max(0, 1 - scrollY / (window.innerHeight * 0.7));
-          }
-
-          /* Menu watermark drift */
-          if (watermark) {
-            var menuTop = watermark.parentElement.offsetTop;
-            var delta = scrollY - menuTop;
-            watermark.style.transform = 'translateY(calc(-50% + ' + (delta * 0.04) + 'px))';
-          }
-
-          rafId = null;
+      links.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          links.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
         });
+      });
+    })();
+
+    /* ── Scroll reveal ── */
+    (function () {
+      var els = document.querySelectorAll('.rv');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('vis'); });
+        return;
       }
-    }
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function (el) { obs.observe(el); });
+    })();
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    /* ── Menu watermark drift ── */
+    (function () {
+      var mark = document.querySelector('.menu-mark');
+      if (!mark || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var raf = null;
+      window.addEventListener('scroll', function () {
+        if (raf) return;
+        raf = requestAnimationFrame(function () {
+          var section = mark.parentElement;
+          var delta = window.pageYOffset - section.offsetTop;
+          mark.style.transform = 'translateY(calc(-50% + ' + (delta * 0.05) + 'px))';
+          raf = null;
+        });
+      }, { passive: true });
+    })();
 
-    /* ── Smooth hover glow on menu cards ── */
-    document.querySelectorAll('.menu-cat').forEach(function(card) {
-      card.addEventListener('mousemove', function(e) {
-        var rect = card.getBoundingClientRect();
-        var x = ((e.clientX - rect.left) / rect.width) * 100;
-        var y = ((e.clientY - rect.top) / rect.height) * 100;
-        card.style.background = 'radial-gradient(circle at ' + x + '% ' + y + '%, rgba(255,255,255,0.025) 0%, transparent 60%)';
+    /* ── Email capture (front-end only until a form endpoint is wired up) ── */
+    (function () {
+      var form = document.getElementById('signupForm');
+      var msg = document.getElementById('signupMsg');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        msg.textContent = 'Thank you — we\'ll be in touch when we open.';
+        form.reset();
       });
-      card.addEventListener('mouseleave', function() {
-        card.style.background = '';
-      });
-    });
+    })();
   </script>
 
 </body>
